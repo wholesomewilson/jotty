@@ -38,6 +38,15 @@ class Editor extends React.Component {
     const csrfToken = document.querySelector("meta[name=csrf-token]").content;
     axios.defaults.headers.common["X-CSRF-Token"] = csrfToken;
     axios
+      .get(`/api/currentusers.json`)
+      .then( response => {
+        this.setState({
+          current_user: response.data,
+        })
+        //console.log(response.data)
+      })
+      .catch(handleAjaxError);
+    axios
       .get('/api/getownposts.json')
       .then(response => {
         this.setState({
@@ -53,14 +62,6 @@ class Editor extends React.Component {
           otherPosts: response.data,
         })
         //console.log(response.data)
-      })
-      .catch(handleAjaxError);
-    axios
-      .get(`/api/currentusers.json`)
-      .then( response => {
-        this.setState({
-          current_user: response.data,
-        })
       })
       .catch(handleAjaxError);
   }

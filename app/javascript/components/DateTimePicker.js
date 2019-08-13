@@ -9,9 +9,7 @@ function BasicDateTimePicker({ handleDate, existingDate, pickerlabel }) {
   return (
     <Fragment>
       <MuiPickersUtilsProvider utils={MomentUtils}>
-        <DateTimePicker
-          value={existingDate ? existingDate : selectedDate}
-        />
+        <DateTimePicker/>
       </MuiPickersUtilsProvider>
     </Fragment>
   );
