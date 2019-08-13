@@ -2,8 +2,8 @@ require "net/http"
 require "uri"
 
 class Post < ApplicationRecord
-  belongs_to :poster, class_name: 'User', foreign_key: 'poster_id'
-  belongs_to :recipient, class_name: 'User', foreign_key: 'recipient_id'
+  belongs_to :poster, :foreign_key => :poster_id, class_name: "User"
+  belongs_to :recipient, :foreign_key => :recipient_id, class_name: "User"
   after_create :alarm_create, if: -> {alarm.present?}
   after_update :alarm_changes, if: -> {saved_change_to_alarm? || saved_change_to_body? || saved_change_to_date?}
   before_destroy :alarm_destroy, if: -> {alarm.present?}
