@@ -8,9 +8,7 @@ function BasicDateTimePicker({ handleDate, existingDate, pickerlabel }) {
   const [selectedDate, handleDateChange] = useState(newDate);
   return (
     <Fragment>
-      <MuiPickersUtilsProvider utils={MomentUtils}>
 
-      </MuiPickersUtilsProvider>
     </Fragment>
   );
 }
