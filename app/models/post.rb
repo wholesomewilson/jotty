@@ -14,7 +14,8 @@ class Post < ApplicationRecord
 
   def create_reminders
     @job = self.delay(:run_at => alarm).alarm_push
-    self.update_column(:job_id, @job.id)
+    puts @job.id + ' haha!'
+    #self.update_column(:job_id, @job.id)
   end
 
   def update_reminders
