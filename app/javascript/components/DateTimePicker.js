@@ -7,7 +7,9 @@ function BasicDateTimePicker({ handleDate, existingDate, pickerlabel }) {
   let newDate = new Date();
   const [selectedDate, handleDateChange] = useState(newDate);
   return (
-
+    <div>
+      Time Picker
+    </div>
   );
 }
 
