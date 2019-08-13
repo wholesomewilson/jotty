@@ -5,7 +5,8 @@ class CreatePosts < ActiveRecord::Migration[5.2]
       t.datetime :alarm
       t.text :body
       t.string :status
-
+      t.integer :poster_id
+      t.integer :recipient_id
       t.timestamps
     end
   end
