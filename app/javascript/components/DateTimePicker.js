@@ -11,13 +11,6 @@ function BasicDateTimePicker({ handleDate, existingDate, pickerlabel }) {
       <MuiPickersUtilsProvider utils={MomentUtils}>
         <DateTimePicker
           value={existingDate ? existingDate : selectedDate}
-          onChange={val => {
-            handleDateChange(val.seconds(0).milliseconds(0));
-            handleDate(val.seconds(0).milliseconds(0));
-          }}
-          label= {pickerlabel}
-          disablePast
-          showTodayButton
         />
       </MuiPickersUtilsProvider>
     </Fragment>
