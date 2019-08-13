@@ -1,0 +1,72 @@
+const cacheName = 'cache-v1';
+const precacheResources = [
+  '<%= asset_pack_path 'application.js' %>',
+  '<%= asset_pack_path 'application.css' %>',
+];
+
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(cacheName)
+      .then(cache => {
+        return cache.addAll(precacheResources);
+      })
+  );
+});
+
+self.addEventListener('activate', event => {
+});
+
+self.addEventListener('fetch', event => {
+  event.respondWith(caches.match(event.request)
+    .then(cachedResponse => {
+        if (cachedResponse) {
+          return cachedResponse;
+        }
+        return fetch(event.request);
+      })
+    );
+});
+
+self.addEventListener("push", (event) => {
+  let title = event.data.json().title;
+  let options = {
+    body: event.data.json().body,
+    data: event.data.json().data,
+    tag: "Jotty",
+    renotify: true,
+    icon: "<%= asset_path('bear.png') %>",
+    vibrate: [100, 50, 100],
+    actions: [
+      { action: 'go', title: 'go to site'},
+      { action: 'close', title: 'no thank you'}
+    ]
+  };
+  event.waitUntil(
+    self.registration.showNotification(title, options)
+  );
+});
+
+self.addEventListener('notificationclick', function(event) {
+  console.log(event)
+  console.log(event.action)
+  console.log(event.notification)
+  event.notification.close()
+
+/*
+  let clickResponsePromise = Promise.resolve();
+  if (event.notification.data && event.notification.data.url) {
+    clickResponsePromise = clients.openWindow(event.notification.data.url);
+  }
+  event.waitUntil(
+    Promise.all([
+      clickResponsePromise,
+      self.analytics.trackEvent('notification-click'),
+    ])
+  );
+  */
+
+});
+
+self.addEventListener('notificationclose', function(event){
+  console.log(event.notification);
+})

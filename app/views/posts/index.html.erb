@@ -1,0 +1,19 @@
+<%= link_to('Logout', destroy_user_session_path, method: :delete) %><br>
+
+<% @own_posts.each do |post| %>
+  Date: <%= post.date.strftime("%e %b %Y %A %I:%M %p") %><br>
+  Alarm: <%= post.alarm.strftime("%e %b %Y %A %I:%M %p") %><br>
+  System Alarm: <%= post.system_alarm.strftime("%e %b %Y %A %I:%M %p") %><br>
+  Body: <%= post.body %><br>
+<% end %>
+
+<br>
+
+<% @other_posts.each do |post| %>
+  Date: <%= post.date %><br>
+  Alarm: <%= post.alarm %><br>
+  System Alarm: <%= post.system_alarm.strftime("%e %b %Y %A %I:%M %p") %><br>
+  Body: <%= post.body %><br>
+<% end %>
+
+<%= link_to 'Create new Jotty', new_post_path %>

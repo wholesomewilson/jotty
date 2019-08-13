@@ -1,0 +1,7 @@
+<div class="btn-logout-wrapper">
+  <% if user_signed_in? %>
+    <%= link_to "Sign Out", destroy_user_session_path, method: :delete, class:  "btn-logout"  %>
+  <% end %>
+</div>
+
+<div id='root'></div>

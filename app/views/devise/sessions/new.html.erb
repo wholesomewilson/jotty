@@ -1,0 +1,15 @@
+<div class="loginsignupform">
+  <h2>Login</h2>
+  <h2><%= render "devise/shared/links" %></h2>
+  <div class="container">
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <%= f.label :contact_number %><br />
+      <%= f.number_field :contact_number, autofocus: true%>
+
+      <%= f.label :password %><br />
+      <%= f.password_field :password, autocomplete: "current-password" %>
+
+      <%= f.submit "Login", class:"btn-submit" %>
+    <% end %>
+  </div>
+</div>

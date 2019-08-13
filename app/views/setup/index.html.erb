@@ -1,0 +1,54 @@
+<h1 class="text-center">Setup</h1>
+<button id="promptsub">Subscribe</button>
+
+<script>
+
+  if (navigator.serviceWorker) {
+    navigator.serviceWorker.register('/service_worker.js')
+    .then(function(reg) {
+      console.log('Registered, installserviceworker.js');
+    })
+  }
+  else{
+    console.error('Service worker is not supported in this browser');
+  }
+
+  $('#promptsub').on('click', function() {
+    navigator.serviceWorker.ready
+      .then((reg) => {
+        reg.pushManager.getSubscription()
+          .then((sub) => {
+            if(sub == null){
+              console.log('null')
+              let options = {
+                userVisibleOnly: true,
+                applicationServerKey: 'BEml3OHtzGWsySwKW-Xk2JFMr3kQtHYABXIvF8KH2mdqNQVu5mmQ3CYO1eBCj6jcBn4og9TDQOfd_dLbhlCpiro'
+              };
+              reg.pushManager.subscribe(options)
+                .then((pushsub) => {
+                  console.log(pushsub)
+                  let body = pushsub.toJSON()
+                  console.log(body)
+                }, (err) => {
+                  console.log(err);
+                });
+            }else{
+              console.log('Notification Registered')
+              reg.pushManager.getSubscription()
+                .then((pushsub) => {
+                  let body = pushsub.toJSON()
+                  let userInfo = {
+                    user:{
+                      endpoint: body.endpoint,
+                      p256dh: body.keys.p256dh,
+                      auth: body.keys.auth
+                    }
+                  }
+                  console.log(userInfo)
+                })
+            };
+          });
+      });
+  })
+
+</script>

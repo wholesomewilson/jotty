@@ -1,0 +1,23 @@
+<%= form_for @post do |f| %>
+  <%= number_field_tag 'recipient_id', "", {class:"form-control", autocomplete:"__away", placeholder: "To who", rows: 8} %><br>
+  <%= f.hidden_field :timezone_offset %><br>
+  Date<br><%= f.datetime_select :date, {id: "", class:"form-control", autocomplete:"__away", placeholder: "Date", readonly: true} %><br>
+  Alarm<br><%= f.datetime_select :alarm, {id: "", class:"form-control", autocomplete:"__away", placeholder: "Alarm", readonly: true} %><br>
+  <%= f.text_area :body, {id: "", class:"form-control", autocomplete:"__away", placeholder: "Your message", rows: 8} %><br>
+  <%= f.submit "Create!"%>
+<% end %>
+
+<script>
+  $(document).ready(function(){
+    timezone_offset()
+  })
+
+  function timezone_offset(){
+    var rightNow = new Date();
+    var jan1 = new Date(rightNow.getFullYear(), 0, 1, 0, 0, 0, 0);
+    var temp = jan1.toGMTString();
+    var jan2 = new Date(temp.substring(0, temp.lastIndexOf(" ")-1));
+    var std_time_offset = (jan1 - jan2) / (1000 * 60 * 60);
+    $('#post_timezone_offset').val(std_time_offset)
+  }
+</script>
