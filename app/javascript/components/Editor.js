@@ -60,8 +60,6 @@ class Editor extends React.Component {
       .then( response => {
         this.setState({
           current_user: response.data,
-        }, () => {
-          console.log(this.state.current_user)
         })
       })
       .catch(handleAjaxError);
