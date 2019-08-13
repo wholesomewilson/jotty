@@ -171,7 +171,20 @@ class Editor extends React.Component {
       <div style={{padding: '0px 15px'}}>
         <Header />
         { setup ?
-          <h1>App Page</h1>
+          <SubApp
+            onClickPostFilterMy = {this.onClickPostFilterMy}
+            onClickPostFilterOther = {this.onClickPostFilterOther}
+            postFilterMyColor={this.state.postFilterMyColor}
+            postFilterOtherColor={this.state.postFilterOtherColor}
+            current_user = {this.state.current_user}
+            deletePost = {this.deletePost}
+            updatePost = {this.updatePost}
+            addPost= {this.addPost}
+            showAddCircle= {true}
+            showOwnPost = {this.state.showOwnPost}
+            ownPosts = {ownPosts}
+            otherPosts = {otherPosts}
+          />
         :
         <Setup/>
         }
