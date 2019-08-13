@@ -17,7 +17,6 @@ function BasicDateTimePicker({ handleDate, existingDate, pickerlabel }) {
           }}
           label= {pickerlabel}
           disablePast
-          minDateMessage="Date and Time is expired!"
           showTodayButton
         />
       </MuiPickersUtilsProvider>
