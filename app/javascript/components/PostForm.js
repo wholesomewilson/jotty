@@ -50,8 +50,8 @@ class PostForm extends React.Component {
     this.handleClose = this.handleClose.bind(this);
   }
 
-  componentWillReceiveProps({ post }) {
-    this.setState({post});
+  componentDidUpdate({ post }) {
+    //this.setState({post});
   }
 
   validatePost(post) {

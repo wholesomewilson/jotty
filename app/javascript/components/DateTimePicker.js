@@ -4,8 +4,8 @@ import MomentUtils from '@date-io/moment';
 import moment from 'moment';
 
 function BasicDateTimePicker({ handleDate, existingDate, pickerlabel }) {
-  //let newDate = new Date();
-  //const [selectedDate, handleDateChange] = useState(newDate);
+  let newDate = new Date();
+  const [selectedDate, handleDateChange] = useState(newDate);
   return (
     <MuiPickersUtilsProvider utils={MomentUtils}>
       <DateTimePicker
