@@ -9,17 +9,7 @@ function BasicDateTimePicker({ handleDate, existingDate, pickerlabel }) {
   return (
     <Fragment>
       <MuiPickersUtilsProvider utils={MomentUtils}>
-        <DateTimePicker
-          value={existingDate ? existingDate : selectedDate}
-          onChange={val => {
-            handleDateChange(val.seconds(0).milliseconds(0));
-            handleDate(val.seconds(0).milliseconds(0));
-          }}
-          label= {pickerlabel}
-          disablePast
-          minDateMessage="Date and Time is expired!"
-          showTodayButton
-        />
+
       </MuiPickersUtilsProvider>
     </Fragment>
   );
