@@ -6,9 +6,8 @@ class SetupController < ApplicationController
   end
 
   def teleupdates
-    puts params[:chat][:id]
-    puts params[:text]
-    @t_token = params
+    puts params['message']['chat']['id']
+    puts params['message']['text']
     render body: nil
   end
 end
