@@ -6,10 +6,10 @@ class SetupController < ApplicationController
   end
 
   def teleupdates
-    @chat_id = params['message']['chat']['id']
-    @t_token = params['message']['text']
+    @chat_id = params['message']['chat']['id'].to_s
+    @t_token = params['message']['text'].to_s
     puts @chat_id
-    puts @t_token
+    puts @t_token.slice!(7,16)
     #@user = User.find_by_t_token(@t_token)
     #@user.update_attribute(:chat_id, @chat_id)
     render body: nil
