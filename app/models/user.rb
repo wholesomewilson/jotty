@@ -24,8 +24,12 @@ class User < ApplicationRecord
     @botname = Rails.application.credentials.tele_token
     puts @text
     puts @botname
-    uri = URI("https://api.telegram.org/bot#{@botname}/sendMessage?chat_id=#{chat_id}&text=#{@text}")
+    uri = URI("https://api.telegram.org/bot#{@botname}/sendMessage")
     req = Net::HTTP::Post.new(uri)
+    req.body = {
+      chat_id: chat_id,
+      text: @text
+    }.to_json
     res = Net::HTTP.start(uri.hostname, uri.port) do |http|
       http.request(req)
     end
