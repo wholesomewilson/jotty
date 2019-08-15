@@ -176,14 +176,14 @@ class Editor extends React.Component {
     if (ownPosts === null) return null;
     const { otherPosts } = this.state;
     if (otherPosts === null) return null;
-    const setup = this.state.current_user.setup;
+    //const setup = this.state.current_user.setup;
     //const { match } = this.props;
     //const postId = match.params.id;
     //const post = ownPosts.find(x => x.id === Number(postId))
     return(
       <div style={{padding: '0px 15px'}}>
         <Header />
-        { setup ?
+        { this.state.current_user.setup ?
           <SubApp
             onClickPostFilterMy = {this.onClickPostFilterMy}
             onClickPostFilterOther = {this.onClickPostFilterOther}
