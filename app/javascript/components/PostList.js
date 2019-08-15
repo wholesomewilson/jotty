@@ -31,7 +31,6 @@ class PostList extends React.Component {
   }
 
   matchSearchTerm(obj) {
-    console.log(obj)
     const {
       alarm, created_at, date, id, poster_id, recipient_id, status, timezone_offset, updated_at, poster, recipient, job_id, ...body
     } = obj;

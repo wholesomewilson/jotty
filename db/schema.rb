@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_13_083408) do
+ActiveRecord::Schema.define(version: 2019_08_14_041418) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(version: 2019_08_13_083408) do
     t.string "p256dh"
     t.string "auth"
     t.boolean "setup", default: false, null: false
+    t.string "t_token"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
