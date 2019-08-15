@@ -26,10 +26,10 @@ class User < ApplicationRecord
     puts @botname
     uri = URI("https://api.telegram.org/bot#{@botname}/sendMessage")
     req = Net::HTTP::Post.new(uri)
-    req.body = {
-      chat_id: chat_id,
-      text: @text
-    }.to_json
+    req.body = [
+      'chat_id' => chat_id,
+      'text' => @text
+    ]
     res = Net::HTTP.start(uri.hostname, uri.port) do |http|
       http.request(req)
     end
