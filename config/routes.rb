@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get 'posts/:id', to: 'site#index'
   get 'posts/:id/edit', to: 'site#index'
   get 'setup', to: 'setup#index'
-  get 'teleupdates', to: 'setup#teleupdates'
+  post 'teleupdates', to: 'setup#teleupdates'
 
 
 
