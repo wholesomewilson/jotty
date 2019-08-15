@@ -24,6 +24,7 @@ class Editor extends React.Component {
       otherPosts: null,
       current_user: null,
       showOwnPost: true,
+      userSetup: null,
       postFilterMyColor: "primary",
       postFilterOtherColor: "default"
     };
@@ -42,8 +43,8 @@ class Editor extends React.Component {
       .then( response => {
         this.setState({
           current_user: response.data,
+          userSetup: response.data.setup
         })
-        //console.log(response.data)
       })
       .catch(handleAjaxError);
     axios
@@ -183,7 +184,7 @@ class Editor extends React.Component {
     return(
       <div style={{padding: '0px 15px'}}>
         <Header />
-        { this.state.current_user.setup ?
+        { this.state.userSetup ?
           <SubApp
             onClickPostFilterMy = {this.onClickPostFilterMy}
             onClickPostFilterOther = {this.onClickPostFilterOther}
