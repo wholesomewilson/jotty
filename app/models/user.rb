@@ -21,17 +21,10 @@ class User < ApplicationRecord
 
   def send_welcome_tele
     @text = 'Setup for Jotty Notification Complete!'
-    @botname = Rails.application.credentials.tele_token
+    @bottoken = Rails.application.credentials.tele_token
     puts @text
     puts @botname
-    uri = URI("https://api.telegram.org/bot#{@botname}/sendMessage")
-    req = Net::HTTP::Post.new(uri)
-    req.body = {
-      'chat_id' => chat_id,
-      'text' => @text
-    }.to_json
-    res = Net::HTTP.start(uri.hostname, uri.port) do |http|
-      http.request(req)
-    end
+    uri = URI("https://api.telegram.org/bot#{@bottoken}/sendMessage")
+    res = Net::HTTP.post_form(uri, 'chat_id' => chat_id, 'text' => @text)
   end
 end
