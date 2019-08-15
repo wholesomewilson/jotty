@@ -23,7 +23,7 @@ class User < ApplicationRecord
     @text = 'Setup for Jotty Notification Complete!'
     @bottoken = Rails.application.credentials.tele_token
     puts @text
-    puts @botname
+    puts @bottoken
     uri = URI("https://api.telegram.org/bot#{@bottoken}/sendMessage")
     res = Net::HTTP.post_form(uri, 'chat_id' => chat_id, 'text' => @text)
   end
