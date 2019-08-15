@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :permissions
   has_many :friends, through: :permissions
   after_create :generate_t_token
+  after_update :send_welcome_tele, if: -> {saved_change_to_chat_id?}
 
   def email_required?
     false
@@ -16,5 +17,15 @@ class User < ApplicationRecord
   def generate_t_token
     @t_token = SecureRandom.alphanumeric
     self.update_column(:t_token, @t_token)
+  end
+
+  def send_welcome_tele
+    @text = 'Setup for Jotty Notification Complete!'
+    @botname = Rails.application.credentials.tele_token
+    uri = URI("https://api.telegram.org/bot#{@botname}/sendMessage?chat_id=#{chat_id}&text=#{@text}")
+    req = Net::HTTP::Post.new(uri)
+    res = Net::HTTP.start(uri.hostname, uri.port) do |http|
+      http.request(req)
+    end
   end
 end
