@@ -7,5 +7,6 @@ class SetupController < ApplicationController
 
   def teleupdates
     puts params
+    render body: nil
   end
 end
