@@ -22,6 +22,8 @@ class User < ApplicationRecord
   def send_welcome_tele
     @text = 'Setup for Jotty Notification Complete!'
     @botname = Rails.application.credentials.tele_token
+    puts @text
+    puts @botname
     uri = URI("https://api.telegram.org/bot#{@botname}/sendMessage?chat_id=#{chat_id}&text=#{@text}")
     req = Net::HTTP::Post.new(uri)
     res = Net::HTTP.start(uri.hostname, uri.port) do |http|
