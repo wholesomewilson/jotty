@@ -5,3 +5,9 @@
 </div>
 
 <div id='root'></div>
+
+<script>
+  self.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+  });
+</script>
