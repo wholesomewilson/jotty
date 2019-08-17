@@ -1,4 +1,4 @@
-import { error } from './notifications'
+import { error, success } from './notifications'
 import axios from 'axios';
 
 export const formatDate = d => {
@@ -39,3 +39,43 @@ export const setup = () => {
     .catch(handleAjaxError);
   //return setupval;
 };
+
+export const imagePath = (name) => {
+  const images = require.context('../images', true)
+  return images(name, true)
+};
+
+export const API_ROOT = 'http://localhost:3000';
+
+export const API_WS_ROOT = 'ws://localhost:3000/cable';
+
+export const HEADERS = {
+  'Content-Type': 'application/json',
+  Accept: 'application/json',
+};
+
+export const userAgentCheck = () => {
+  let userAgent;
+  if (/android/i.test(window.navigator.userAgent)) {
+    userAgent = 'android'
+  }
+  if (/iPad|iPhone|iPod/.test(window.navigator.userAgent) && !window.navigator.MSStream) {
+    userAgent = 'ios'
+  }
+  return userAgent;
+};
+
+export const completeSetup = () => {
+  let userInfo = {
+    user:{
+      setup: true
+    }
+  }
+  axios
+    .put(`/users`, userInfo)
+    .then( (msg) => {
+      success('Setup Completed');
+      window.location.reload()
+    })
+    .catch(handleAjaxError);
+}

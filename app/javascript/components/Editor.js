@@ -66,18 +66,20 @@ class Editor extends React.Component {
       })
       .catch(handleAjaxError);
       //console.log(/windows phone/i.test(navigator.userAgent))
+      /*
       axios
         .get('https://api.telegram.org/bot811403419:AAHh86slPd7FW2ZAeV3x2rjJjzlZedBFLUM/getUpdates')
         .then(response => {
-          /*
+
           this.setState({
             ownPosts: response.data,
           })
-          */
+
           let t_token = response.data.result[0].message.text.substring(7)
           console.log(response.data.result[response.data.result.length - 1].message.text.substring(7))
         })
         .catch(handleAjaxError);
+        */
   }
 
   addPost(newPost) {
@@ -200,7 +202,7 @@ class Editor extends React.Component {
             otherPosts = {otherPosts}
           />
         :
-        <Setup/>
+          <Setup current_user = {this.state.current_user}/>
         }
       </div>
     );

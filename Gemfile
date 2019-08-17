@@ -65,4 +65,5 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'webpush'
 gem 'delayed_job_active_record'
+gem 'active_model_serializers'
 ruby '2.6.1'

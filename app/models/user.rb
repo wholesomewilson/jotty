@@ -24,5 +24,6 @@ class User < ApplicationRecord
     @bottoken = Rails.application.credentials.tele_token
     uri = URI("https://api.telegram.org/bot#{@bottoken}/sendMessage")
     res = Net::HTTP.post_form(uri, 'chat_id' => chat_id, 'text' => @text)
+    self.update_column(:setuptelegram, true)
   end
 end

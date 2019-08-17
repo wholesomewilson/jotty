@@ -11,8 +11,7 @@ Rails.application.routes.draw do
   get 'posts/:id/edit', to: 'site#index'
   get 'setup', to: 'setup#index'
   post 'teleupdates', to: 'setup#teleupdates'
-
-
+  #mount ActionCable.server => '/cable'
 
   devise_for :users, controllers: {
     registrations: 'users/registrations'
