@@ -23,4 +23,10 @@
   <body>
     <%= yield %>
   </body>
+
+  <script>
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+    });
+  </script>
 </html>
