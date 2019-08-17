@@ -70,3 +70,7 @@ self.addEventListener('notificationclick', function(event) {
 self.addEventListener('notificationclose', function(event){
   console.log(event.notification);
 })
+
+self.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+});
