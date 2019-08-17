@@ -80,6 +80,9 @@ class Editor extends React.Component {
         })
         .catch(handleAjaxError);
         */
+        self.addEventListener('beforeinstallprompt', (e) => {
+          e.preventDefault();
+        });
   }
 
   addPost(newPost) {
