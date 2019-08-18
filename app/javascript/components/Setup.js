@@ -10,12 +10,13 @@ import {handleAjaxError, userAgentCheck, completeSetup} from '../helpers/helpers
 const Setup = ({ current_user }) => {
   const { t_token } = current_user;
   const { setuppush } = current_user;
+  const { setuptelegram } = current_user;
   const userAgent = userAgentCheck();
   let setupPage = 0;
   const [setupCurrent, changeSetupPage] = useState(setupPage);
   return(
     <div>
-      {setupCurrent == 0 ? <SetupTelegram current_user_t_token = {t_token} /> : null}
+      {setupCurrent == 0 ? <SetupTelegram current_user_t_token = {t_token} setuptelegram = {setuptelegram} /> : null}
       {setupCurrent == 1 ? <SetupPush setuppush = {setuppush} /> : null}
       {setupCurrent == 2 ? userAgent == 'ios' ? <SetupInstall /> : <SetupAdd /> : null}
       <Button

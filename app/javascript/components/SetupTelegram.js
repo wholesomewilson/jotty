@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import { imagePath } from '../helpers/helpers';
 
-const SetupTelegram = ({current_user_t_token}) => {
+const SetupTelegram = ({current_user_t_token, setuptelegram}) => {
   const requestBot = `https://telegram.me/jottybot?start=${current_user_t_token}`
   const initbutton = {
     color: 'secondary',
@@ -14,7 +14,8 @@ const SetupTelegram = ({current_user_t_token}) => {
     disabled: true,
     name: 'Activated'
   }
-  const [buttonName, changeButton] = useState(initbutton);
+  const useStateInit = setuptelegram ? changedbutton : initbutton
+  const [buttonName, changeButton] = useState(useStateInit);
   return(
     <div style={{textAlign: 'center'}}>
       <br/>
