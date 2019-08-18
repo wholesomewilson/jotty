@@ -4,8 +4,17 @@ import { imagePath } from '../helpers/helpers';
 
 const SetupTelegram = ({current_user_t_token}) => {
   const requestBot = `https://telegram.me/jottybot?start=${current_user_t_token}`
-  let initbutton = false
-  const [showNextButton, changeNextButton] = useState(initbutton);
+  const initbutton = {
+    color: 'secondary',
+    disabled: false,
+    name: 'Activate'
+  }
+  const changedbutton = {
+    color: 'default',
+    disabled: true,
+    name: 'Activated'
+  }
+  const [buttonName, changeButton] = useState(initbutton);
   return(
     <div style={{textAlign: 'center'}}>
       <br/>
@@ -14,7 +23,7 @@ const SetupTelegram = ({current_user_t_token}) => {
       <img style={{width: '150px', height:'150px'}} src={imagePath('./telegram.png')} />
       <br />
       <br />
-      <Button size='small' variant="contained" color='secondary' href={requestBot} target="_blank" onClick= { () => changeNextButton(true)}>Activate</Button>
+      <Button size='small' variant="contained" color={buttonName.color} disable={buttonName.disabled} href={requestBot} target="_blank" onClick= {() => changeButton(changedbutton)}>{buttonName.name}</Button>
     </div>
   );
 }
