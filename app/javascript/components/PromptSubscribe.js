@@ -75,7 +75,7 @@ class PromptInstall extends React.Component {
   render(){
     return(
       <div>
-        <Button size='small' variant="contained" color="secondary" onClick={this.subscribePush}>
+        <Button size='small' variant="contained" color={ this.state.setuppush ? 'default' : 'secondary' } onClick={this.subscribePush}>
           { this.state.setuppush ? 'Activate Again' : 'Activate' }
         </Button>
       </div>
