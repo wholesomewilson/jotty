@@ -62,7 +62,7 @@ class PromptInstall extends React.Component {
               axios
               .put(`/users`, userInfo)
               .then( (msg) => {
-                success('Notification Activated');
+                success('Notification Activated Again');
               })
               .catch((err) => {
                 console.log(err)
