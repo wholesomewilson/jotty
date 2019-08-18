@@ -6,7 +6,7 @@ const SetupTelegram = ({current_user_t_token}) => {
   const requestBot = `https://telegram.me/jottybot?start=${current_user_t_token}`
   const initbutton = {
     color: 'secondary',
-    disabled: false,
+    disabled: '',
     name: 'Activate'
   }
   const changedbutton = {
