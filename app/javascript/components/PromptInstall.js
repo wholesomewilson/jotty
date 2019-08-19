@@ -13,24 +13,9 @@ class PromptInstall extends React.Component {
     this.installPWA = this.installPWA.bind(this)
   }
   componentDidMount(){
-    /*
-    self.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      this.setState({
-        deferredPrompt: e
-      }, () => {
-        console.log(this.state.deferredPrompt)
-      });
-    });
     self.addEventListener('appinstalled', () => {
       window.location.reload()
-
-      this.setState({
-        showButton: false
-      });
-
     })
-    */
   }
 
   installPWA(){
