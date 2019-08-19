@@ -9,12 +9,16 @@ class PromptInstall extends React.Component {
     super(props);
     this.state = {
       deferredPrompt: this.props.deferredPrompt,
+      buttonAction: this.props.deferredPrompt == null ? { color: 'default', disabled: true , name: 'Installed' } : { color: 'secondary', disabled: null, name: 'Install App' }
     };
     this.installPWA = this.installPWA.bind(this)
   }
+
   componentDidMount(){
     self.addEventListener('appinstalled', () => {
-      window.location.reload()
+      this.setState({
+        buttonAction: { color: 'default', disabled: true , name: 'Installed' }
+      })
     })
   }
 
@@ -23,10 +27,9 @@ class PromptInstall extends React.Component {
   }
 
   render(){
-    const buttonAction = this.state.deferredPrompt == null ? 'Installed' : 'Install App';
     return(
       <div>
-        <Button size='small' variant="contained" color="secondary" onClick={this.installPWA}>{buttonAction}</Button>
+        <Button size='small' variant="contained" color={this.state.buttonAction.color} disabled={this.state.buttonAction.disabled} onClick={this.installPWA}>{this.state.buttonAction.name}</Button>
       </div>
     );
   }
