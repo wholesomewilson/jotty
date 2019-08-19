@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
 
-  root to: redirect('/posts')
-  #authenticated :user do
-  #  root 'site#index'
-  #end
+  #root to: redirect('/posts')
+  authenticated :user do
+    root 'site#index'
+  end
 
   get '/posts', to: 'site#index'
   get 'posts/new', to: 'site#index'
