@@ -8,13 +8,10 @@ class PromptInstall extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      deferredPrompt: null,
-      showButtonPush: true,
-      showButtonInstall: true,
+      deferredPrompt: this.props.deferredPrompt,
     };
     this.installPWA = this.installPWA.bind(this)
   }
-
   componentDidMount(){
     /*
     self.addEventListener('beforeinstallprompt', (e) => {

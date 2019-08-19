@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import PromptInstall from './PromptInstall';
 import axios from 'axios';
 import {handleAjaxError} from '../helpers/helpers';
@@ -13,9 +13,12 @@ const style = {
   boxShadow: '0 0 10px #E6E6E6',
 }
 
+let deferredPrompt
+
 self.addEventListener('beforeinstallprompt', (e) => {
-  console.log(e)
   e.preventDefault();
+  deferredPrompt = e;
+  console.log(deferredPrompt)
 });
 
 const SetupInstall = () => (
@@ -26,7 +29,7 @@ const SetupInstall = () => (
       <img style={style} src={imagePath('./bear.png')} />
       <br/>
       <br />
-      <PromptInstall/>
+      <PromptInstall deferredPrompt = {deferredPrompt}/>
     </div>
   )
 
