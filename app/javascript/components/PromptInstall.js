@@ -21,7 +21,7 @@ class PromptInstall extends React.Component {
       this.setState({
         deferredPrompt: e
       }, () => {
-        console.log(this.state.deferredPrompt);
+        console.log(this.state.deferredPrompt)
       });
     });
     self.addEventListener('appinstalled', () => {
