@@ -18,7 +18,6 @@ let deferredPrompt
 self.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  console.log(deferredPrompt)
 });
 
 const SetupInstall = () => (
