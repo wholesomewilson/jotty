@@ -3,17 +3,24 @@ import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import { handleAjaxError } from '../helpers/helpers';
 import { success } from '../helpers/notifications';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { makeStyles } from '@material-ui/core/styles';
 
 class PromptInstall extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      setuppush: this.props.setuppush
+      setuppush: this.props.setuppush,
+      loading: false,
+      success: false
     }
     this.subscribePush = this.subscribePush.bind(this)
   }
 
   subscribePush(){
+    this.setState({
+      loading: true
+    });
     const csrfToken = document.querySelector("meta[name=csrf-token]").content;
     axios.defaults.headers.common["X-CSRF-Token"] = csrfToken;
     navigator.serviceWorker.ready
@@ -41,7 +48,8 @@ class PromptInstall extends React.Component {
                   .then( (msg) => {
                     success('Notification Activated');
                     this.setState({
-                      setuppush: true
+                      setuppush: true,
+                      loading: false
                     })
                   })
                   .catch((err) => {
@@ -63,6 +71,9 @@ class PromptInstall extends React.Component {
               .put(`/users`, userInfo)
               .then( (msg) => {
                 success('Notification Activated Again');
+                this.setState({
+                  loading: false
+                })
               })
               .catch((err) => {
                 console.log(err)
@@ -70,14 +81,24 @@ class PromptInstall extends React.Component {
             }
           })
       });
+
   }
 
   render(){
     return(
       <div>
-        <Button size='small' variant="contained" color={ this.state.setuppush ? 'default' : 'secondary' } onClick={this.subscribePush}>
-          { this.state.setuppush ? 'Activate Again' : 'Activate' }
+        <Button size='small' variant="contained" disabled={this.state.loading} color={ this.state.setuppush ? 'default' : 'secondary' } onClick={this.subscribePush}>
+          {this.state.setuppush? 'Activate' : 'Activate Again'}
         </Button>
+        {this.state.loading && <CircularProgress size={24}
+          style = {{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            marginTop: '-14px',
+            marginLeft: '-14px',
+          }}
+        />}
       </div>
     );
   }
