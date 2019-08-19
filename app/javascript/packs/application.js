@@ -31,3 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
     </BrowserRouter>, document.querySelector('#root')
   );
 });
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  console.log(e)
+  e.preventDefault();
+});
