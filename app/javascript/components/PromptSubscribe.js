@@ -11,8 +11,7 @@ class PromptInstall extends React.Component {
     super(props);
     this.state = {
       setuppush: this.props.setuppush,
-      loading: false,
-      success: false
+      loading: true,
     }
     this.subscribePush = this.subscribePush.bind(this)
   }
@@ -86,17 +85,15 @@ class PromptInstall extends React.Component {
 
   render(){
     return(
-      <div>
+      <div style={{position: 'relative'}}>
         <Button size='small' variant="contained" disabled={this.state.loading} color={ this.state.setuppush ? 'default' : 'secondary' } onClick={this.subscribePush}>
           {this.state.setuppush? 'Activate' : 'Activate Again'}
         </Button>
         {this.state.loading && <CircularProgress size={24}
           style = {{
             position: 'absolute',
-            top: '50%',
-            left: '50%',
-            marginTop: '-14px',
-            marginLeft: '-14px',
+            marginTop: '3px',
+            marginLeft: '5px',
           }}
         />}
       </div>
