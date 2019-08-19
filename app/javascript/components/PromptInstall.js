@@ -16,6 +16,7 @@ class PromptInstall extends React.Component {
   }
 
   componentDidMount(){
+    /*
     self.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       this.setState({
@@ -26,12 +27,13 @@ class PromptInstall extends React.Component {
     });
     self.addEventListener('appinstalled', () => {
       window.location.reload()
-      /*
+
       this.setState({
         showButton: false
       });
-      */
+
     })
+    */
   }
 
   installPWA(){

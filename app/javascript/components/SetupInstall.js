@@ -13,6 +13,11 @@ const style = {
   boxShadow: '0 0 10px #E6E6E6',
 }
 
+self.addEventListener('beforeinstallprompt', (e) => {
+  console.log(e)
+  e.preventDefault();
+});
+
 const SetupInstall = () => (
     <div style={{textAlign:"center"}}>
       <br/>
