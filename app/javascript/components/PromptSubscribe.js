@@ -87,7 +87,7 @@ class PromptInstall extends React.Component {
     return(
       <div style={{position: 'relative'}}>
         <Button size='small' variant="contained" disabled={this.state.loading} color={ this.state.setuppush ? 'default' : 'secondary' } onClick={this.subscribePush}>
-          {this.state.setuppush? 'Activate' : 'Activate Again'}
+          {this.state.setuppush? 'Activate Again' : 'Activate'}
         </Button>
         {this.state.loading && <CircularProgress size={24}
           style = {{
