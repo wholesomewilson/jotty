@@ -11,7 +11,7 @@ class PromptInstall extends React.Component {
     super(props);
     this.state = {
       setuppush: this.props.setuppush,
-      loading: true,
+      loading: false,
     }
     this.subscribePush = this.subscribePush.bind(this)
   }
