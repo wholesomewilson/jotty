@@ -41,10 +41,14 @@ class Editor extends React.Component {
     axios
       .get(`/api/currentusers.json`)
       .then( response => {
-        this.setState({
-          current_user: response.data,
-          userSetup: response.data.setup
-        })
+        if (response.data == null){
+          window.location.reload()
+        }else{
+          this.setState({
+            current_user: response.data,
+            userSetup: response.data.setup
+          })
+        }
       })
       .catch(handleAjaxError);
     axios

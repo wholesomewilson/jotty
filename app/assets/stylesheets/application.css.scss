@@ -27,7 +27,7 @@
    input[type=number], input[type=password], input[type=text] {
      width: 100%;
      padding: 12px 20px;
-     margin: 8px 0;
+     margin: 0;
      display: inline-block;
      border: 1px solid #ccc;
      box-sizing: border-box;
@@ -37,7 +37,6 @@
      background-color: #4CAF50;
      color: white;
      padding: 14px 20px;
-     margin: 8px 0;
      border: none;
      cursor: pointer;
      width: 100%;
@@ -82,4 +81,77 @@ li{
 .add_post_icon{
   font-size: 48px!important;
   float: right;
+}
+
+.subadmin_signup{
+  display: block;
+  color: #DC4C46;
+}
+
+.subadmin_alert{
+  display: inline-block;
+  z-index: 1;
+  color: #DC4C46;
+  font-size: 14px;
+}
+
+.missinginfo{
+  display: none;
+  color: #DC4C46;
+  z-index: 1;
+  position: absolute;
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+.field{
+  margin-bottom: 20px;
+}
+
+.loading_wrapper{
+  display: none;
+  height: 100%;
+  width: 100%;
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  background-color: #414042;
+  overflow-x: hidden; /* Disable horizontal scroll */
+  opacity: 0.8;
+  text-align: center;
+}
+
+.loader {
+  border: 5px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 5px solid #3f51b5;
+  width: 20px;
+  height: 20px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+.loading{
+  position: relative;
+  top: 50%;
+  width: 100%;
+  text-align: center;
+  color: #fff;
+  transform: translateY(-125%);
+  font-size: 14px;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

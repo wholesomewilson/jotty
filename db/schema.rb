@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_17_091910) do
+ActiveRecord::Schema.define(version: 2019_08_22_012857) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 2019_08_17_091910) do
     t.integer "poster_id"
     t.integer "timezone_offset"
     t.integer "job_id"
+    t.integer "job_id_telegram"
     t.index ["poster_id"], name: "index_posts_on_poster_id"
     t.index ["recipient_id"], name: "index_posts_on_recipient_id"
   end

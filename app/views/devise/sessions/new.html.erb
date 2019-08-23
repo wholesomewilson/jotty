@@ -3,12 +3,19 @@
   <h2><%= render "devise/shared/links" %></h2>
   <div class="container">
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-      <%= f.label :contact_number %><br />
-      <%= f.number_field :contact_number, autofocus: true%>
-
-      <%= f.label :password %><br />
-      <%= f.password_field :password, autocomplete: "current-password" %>
-
+      <div class="field">
+        <%= f.label :contact_number %><br />
+        <%= f.number_field :contact_number, autofocus: true%>
+      </div>
+      <div class="field">
+        <%= f.label :password %><br />
+        <%= f.password_field :password, autocomplete: "current-password" %>
+        <span class="subadmin_alert">
+          <% if alert.present? %>
+            <%= alert.html_safe %>
+          <% end %>
+        </span>
+      </div>
       <%= f.submit "Login", class:"btn-submit" %>
     <% end %>
   </div>

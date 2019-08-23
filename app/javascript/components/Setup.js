@@ -12,7 +12,7 @@ const Setup = ({ current_user }) => {
   const { setuppush } = current_user;
   const { setuptelegram } = current_user;
   const userAgent = userAgentCheck();
-  let setupPage = 0;
+  let setupPage = 1;
   const [setupCurrent, changeSetupPage] = useState(setupPage);
   return(
     <div>

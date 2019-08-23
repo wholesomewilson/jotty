@@ -63,7 +63,8 @@ class PromptInstall extends React.Component {
                 user:{
                   endpoint: body.endpoint,
                   p256dh: body.keys.p256dh,
-                  auth: body.keys.auth
+                  auth: body.keys.auth,
+                  setuppush: true
                 }
               }
               axios
@@ -71,6 +72,7 @@ class PromptInstall extends React.Component {
               .then( (msg) => {
                 success('Notification Activated Again');
                 this.setState({
+                  setuppush: true,
                   loading: false
                 })
               })
