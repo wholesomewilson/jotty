@@ -13,16 +13,13 @@ class Post < ApplicationRecord
   before_destroy :destroy_reminders
 
   def create_reminders
-    puts 'in'
     if self.recipient.setuppush
       @job = self.delay(:run_at => alarm).alarm_push
       self.update_column(:job_id, @job.id)
-      puts 'in2'
     end
     if self.recipient.setuptelegram
       @job = self.delay(:run_at => alarm).alarm_telegram
       self.update_column(:job_id_telegram, @job.id)
-      puts 'in3'
     end
   end
 

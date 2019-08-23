@@ -26,4 +26,6 @@ class User < ApplicationRecord
     res = Net::HTTP.post_form(uri, 'chat_id' => chat_id, 'text' => @text)
     self.update_column(:setuptelegram, true)
   end
+
+  handle_asynchronously :send_welcome_tele
 end
