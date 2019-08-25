@@ -9,7 +9,7 @@ class Post < ApplicationRecord
   #before_destroy :alarm_destroy, if: -> {alarm.present?}
 
   after_create :create_reminders, if: -> {alarm.present?}
-  after_create :new_jotty_notifications
+  after_create :new_jotty_notifications, if: -> { self.recipient != self.poster }
   after_update :update_reminders, if: -> {saved_change_to_alarm?}
   before_destroy :destroy_reminders
 
