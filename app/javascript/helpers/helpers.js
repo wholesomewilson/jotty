@@ -9,7 +9,7 @@ export const formatDate = d => {
 }
 
 export const handleAjaxError = (err) => {
-  const error_code = err.response.status
+  const error_code = err.response
   switch (error_code){
     case 401:
     return error('You need to login to continue!');

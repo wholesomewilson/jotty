@@ -22,10 +22,15 @@ class Api::PostsController < ApplicationController
     @recipient = User.find(params[:post][:recipient_id])
     if @recipient == current_user
       @post = current_user.own_posts.create(post_params.merge(poster: current_user))
+      respond_with(:api, @post, :include => add_attr_post, :except => remove_attr_post)
     else
-      @post = @recipient.own_posts.create(post_params.merge(poster: current_user))
+      if @recipient.friends.include? current_user
+        @post = @recipient.own_posts.create(post_params.merge(poster: current_user))
+        respond_with(:api, @post, :include => add_attr_post, :except => remove_attr_post)
+      else
+        
+      end
     end
-    respond_with(:api, @post, :include => add_attr_post, :except => remove_attr_post)
   end
 
   def destroy

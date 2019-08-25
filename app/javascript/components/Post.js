@@ -12,7 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import AlarmIcon from '@material-ui/icons/Alarm';
 import EditIcon from '@material-ui/icons/Edit';
 
-const Post = ({ post, onDelete, updatePost, current_user }) => {
+const Post = ({ post, updatePost, deletePost, current_user }) => {
 
   const useStyles = makeStyles(theme => ({
   root: {
@@ -54,14 +54,14 @@ const Post = ({ post, onDelete, updatePost, current_user }) => {
   return (
     <div>
       <Paper className={classes.paper}>
-      <Grid container direction="row" justify="flex-end" alignItems="center">
-      <Typography variant="subtitle2" color="textSecondary">
-        {datemoment}
-      </Typography>
-      <Typography variant="subtitle2" color="textSecondary">
-       <PostForm path="/posts/:id/edit" onSubmit={updatePost} post={post} showAddCircle={false} temptrue={true}/>
-       </Typography>
-      </Grid>
+        <Grid container direction="row" justify="flex-end" alignItems="center">
+        <Typography variant="subtitle2" color="textSecondary">
+          {datemoment}
+        </Typography>
+        <Typography variant="subtitle2" color="textSecondary">
+         <PostForm path="/posts/:id/edit" onSubmit={updatePost} deletePost={deletePost} post={post} showAddCircle={false} temptrue={true}/>
+         </Typography>
+        </Grid>
         <Grid container direction="row" justify="space-between" alignItems="center">
           <Grid item>
             <Typography variant="subtitle1"  style={{ minHeight:"10vh" }}>
@@ -93,7 +93,6 @@ const Post = ({ post, onDelete, updatePost, current_user }) => {
 
 Post.propTypes = {
   post: PropTypes.shape(),
-  onDelete: PropTypes.func.isRequired
 };
 
 Post.defaultProps = {

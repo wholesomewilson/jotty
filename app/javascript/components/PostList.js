@@ -26,7 +26,7 @@ class PostList extends React.Component {
     .filter( post => this.matchSearchTerm(post))
     .sort((a, b) => new Date(b.date) - new Date(a.date));
     return filteredPosts.map( post => (
-      <li key={post.id}><Post post={post} current_user = {this.props.current_user} onDelete={this.props.onDelete} updatePost={this.props.updatePost}/></li>
+      <li key={post.id}><Post post={post} current_user = {this.props.current_user} deletePost={this.props.deletePost} updatePost={this.props.updatePost}/></li>
     ));
   }
 

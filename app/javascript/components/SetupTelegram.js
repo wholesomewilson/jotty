@@ -11,7 +11,7 @@ const SetupTelegram = ({current_user_t_token, setuptelegram}) => {
   }
   const changedbutton = {
     color: 'default',
-    disabled: true,
+    disabled: 'disabled',
     name: 'Activated'
   }
   const useStateInit = setuptelegram ? changedbutton : initbutton

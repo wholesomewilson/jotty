@@ -29,10 +29,10 @@ class Editor extends React.Component {
       postFilterOtherColor: "default"
     };
   this.addPost = this.addPost.bind(this);
-  this.deletePost = this.deletePost.bind(this);
   this.updatePost = this.updatePost.bind(this);
   this.onClickPostFilterMy = this.onClickPostFilterMy.bind(this);
   this.onClickPostFilterOther = this.onClickPostFilterOther.bind(this);
+  this.deletePost = this.deletePost.bind(this);
   }
 
   componentDidMount(){
@@ -121,25 +121,6 @@ class Editor extends React.Component {
     .catch(handleAjaxError);
   }
 
-  deletePost(postId) {
-    const sure = window.confirm('Are you sure?');
-    if (sure){
-      axios.delete(`/api/posts/${postId}.json`)
-      .then( response => {
-        if (response.status === 204){
-          success('Post deleted!');
-          const { ownPosts } = this.state;
-          const { otherPosts } = this.state;
-          this.setState({
-            ownPosts: posts.filter( post => post.id !== postId),
-            otherPosts: posts.filter( post => post.id !== postId)
-          });
-        }
-      })
-      .catch(handleAjaxError);
-    }
-  }
-
   pushNotty(){
     axios.get(`/api/alarm`).then( response => {
       //console.log(response)
@@ -163,6 +144,25 @@ class Editor extends React.Component {
     })
   }
 
+  deletePost(postId) {
+    const sure = window.confirm('Are you sure?');
+    if (sure){
+      axios.delete(`/api/posts/${postId}.json`)
+      .then( response => {
+        if (response.status === 204){
+          success('Post deleted!');
+          const { ownPosts } = this.state;
+          const { otherPosts } = this.state;
+          this.setState({
+            ownPosts: ownPosts.filter( post => post.id !== postId),
+            otherPosts: otherPosts.filter( post => post.id !== postId)
+          });
+        }
+      })
+      .catch(handleAjaxError);
+    }
+  }
+
   render(){
     const { ownPosts } = this.state;
     if (ownPosts === null) return null;
@@ -182,9 +182,9 @@ class Editor extends React.Component {
             postFilterMyColor={this.state.postFilterMyColor}
             postFilterOtherColor={this.state.postFilterOtherColor}
             current_user = {this.state.current_user}
-            deletePost = {this.deletePost}
             updatePost = {this.updatePost}
             addPost= {this.addPost}
+            deletePost= {this.deletePost}
             showAddCircle= {true}
             showOwnPost = {this.state.showOwnPost}
             ownPosts = {ownPosts}

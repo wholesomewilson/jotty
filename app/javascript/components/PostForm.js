@@ -18,6 +18,7 @@ import Typography from '@material-ui/core/Typography';
 import AddCircle from '@material-ui/icons/AddCircle';
 import AlarmIcon from '@material-ui/icons/Alarm';
 import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/DeleteOutlined';
 import moment from 'moment';
 import Chip from '@material-ui/core/Chip';
 
@@ -325,14 +326,26 @@ class PostForm extends React.Component {
                 {this.state.validateBody ? null : <div style={{fontSize:'11px', color:'red', margin:'17px 0px 0px 5px'}}>Message cannot be empty</div>}
               </div>
             </DialogContent>
-            <DialogActions>
-              <Button onClick={this.handleClose} color="primary">
-                Cancel
-              </Button>
-              <Button onClick={this.handleSubmit} color="primary">
-                {showAddCircle ? 'Create' : 'Edit'}
-              </Button>
-            </DialogActions>
+            <Grid
+              justify="space-between" // Add it here :)
+              container
+            >
+              <Grid item>
+                <DialogActions>
+                { post.id ? <DeleteIcon style={{marginTop: '4px', marginLeft: '11px'}} onClick= { () => this.props.deletePost(post.id)}/> : null }
+                </DialogActions>
+              </Grid>
+              <Grid item>
+              <DialogActions>
+                <Button onClick={this.handleClose} color="primary">
+                  Cancel
+                </Button>
+                <Button onClick={this.handleSubmit} color="primary">
+                  {showAddCircle ? 'Create' : 'Done'}
+                </Button>
+              </DialogActions>
+              </Grid>
+            </Grid>
           </form>
         </Dialog>
       </div>
