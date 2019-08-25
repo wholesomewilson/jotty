@@ -50,7 +50,7 @@ const Post = ({ post, updatePost, deletePost, current_user }) => {
   const alarmmomenttime = moment(post.alarm).utc(true).format('hh:mm A')
   const posterfullname = post.poster.first_name + ' ' + post.poster.last_name
   const currentuserfullname = current_user.first_name + ' ' + current_user.last_name
-  const postersignoff = posterfullname === currentuserfullname ? 'Note to Self' : posterfullname
+  const postersignoff = posterfullname === currentuserfullname ? 'Myself' : posterfullname
   return (
     <div>
       <Paper className={classes.paper}>
