@@ -51,6 +51,10 @@ class User < ApplicationRecord
     )
   end
 
+  def remember_me
+    (super == nil) ? '1' : super
+  end
+
 
   handle_asynchronously :send_welcome_tele
 end

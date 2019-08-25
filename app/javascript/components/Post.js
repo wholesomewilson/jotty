@@ -45,7 +45,7 @@ const Post = ({ post, updatePost, deletePost, current_user }) => {
   const timezone_offset = post.timezone_offset
   //const datemoment = moment(post.date).utc(true).format('MMMM DD YYYY dddd hh:mm:ss A')
   const createdmoment = moment(post.created_at).utc(true).format('MMMM DD YYYY hh:mm A')
-  const datemoment = moment(post.date).utc(true).format('DD MMMM YYYY')
+  const datemoment = moment(post.date).utc(true).format('DD MMM YYYY hh:mm A')
   const alarmmomentdate = moment(post.alarm).utc(true).format('DD-MM-YYYY')
   const alarmmomenttime = moment(post.alarm).utc(true).format('hh:mm A')
   const posterfullname = post.poster.first_name + ' ' + post.poster.last_name

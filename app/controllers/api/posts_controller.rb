@@ -5,12 +5,12 @@ class Api::PostsController < ApplicationController
   respond_to :json
 
   def get_own_posts
-    @own_posts = current_user.own_posts.order(date: :DESC)
+    @own_posts = current_user.own_posts.where("date > ?", DateTime.current).order(date: :DESC)
     respond_with(@own_posts, :include => add_attr_post, :except => remove_attr_post)
   end
 
   def get_other_posts
-    @other_posts = current_user.other_posts.where.not(recipient: current_user).order(date: :DESC)
+    @other_posts = current_user.other_posts.where.not(recipient: current_user).where("date > ?", DateTime.current).order(date: :DESC)
     respond_with(@other_posts, :include => add_attr_post, :except => remove_attr_post)
   end
 
