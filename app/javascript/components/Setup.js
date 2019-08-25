@@ -17,7 +17,7 @@ const Setup = ({ current_user }) => {
   return(
     <div>
       {setupCurrent == 0 ? <SetupTelegram current_user_t_token = {t_token} setuptelegram = {setuptelegram} /> : null}
-      {setupCurrent == 1 ? <SetupPush setuppush = {setuppush} /> : null}
+      {setupCurrent == 1 && userAgent == 'android' ? <SetupPush setuppush = {setuppush} /> : null}
       {setupCurrent == 2 ? userAgent == 'android' ? <SetupInstall /> : <SetupAdd /> : null}
       <Button
       size='small'
