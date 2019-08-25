@@ -296,7 +296,7 @@ class PostForm extends React.Component {
     const { showAddCircle } = this.props;
     if (!post.id && path === '/posts/:id/edit') return <PostNotFound/>;
     const title = post.id ? 'Edit Post' : 'New Post';
-    const recipient_name = post.id ? `${post.recipient.first_name}` : this.state.hideRecipientInput ? null : <TextField autoFocus id="recipient_id" label="Recipient" type="text" name="recipient_id" fullWidth onChange= {this.handleInputChangeName}/>;
+    const recipient_name = post.id ? `${post.recipient.first_name}` : this.state.hideRecipientInput ? null : <TextField autoFocus id="recipient_id" label="Recipient Mobile No." type="text" name="recipient_id" fullWidth onChange= {this.handleInputChangeName}/>;
     return (
       <div>
         {showAddCircle ? <AddCircle onClick={this.handleOpenNew} className="add_post_icon" color="primary"/> : <EditIcon onClick={this.handleOpenEdit} style={{marginLeft: '10px', fontSize:'18px'}}/>}

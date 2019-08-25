@@ -14,19 +14,35 @@ const Setup = ({ current_user }) => {
   const userAgent = userAgentCheck();
   let setupPage = 0;
   const [setupCurrent, changeSetupPage] = useState(setupPage);
-  return(
+  const setupiOS = () => (
+    <div>
+      {setupCurrent == 0 ? <SetupTelegram current_user_t_token = {t_token} setuptelegram = {setuptelegram} /> : null}
+      {setupCurrent == 1 ? <SetupAdd /> : null}
+    </div>
+  )
+  const setupAndroid = () => (
     <div>
       {setupCurrent == 0 ? <SetupTelegram current_user_t_token = {t_token} setuptelegram = {setuptelegram} /> : null}
       {setupCurrent == 1 ? <SetupPush setuppush = {setuppush} /> : null}
-      {setupCurrent == 2 ? userAgent == 'android' ? <SetupInstall /> : <SetupAdd /> : null}
+      {setupCurrent == 2 ? <SetupInstall /> : null}
+    </div>
+  )
+  const setupNext = (setCurrent) => {
+    if (userAgent == 'ios'){
+      setupCurrent == 0 ? changeSetupPage(1) : completeSetup()
+    }
+    if (userAgent == 'android'){
+      setupCurrent == 0 ? changeSetupPage(1) : setupCurrent == 1 ? changeSetupPage(2) : completeSetup()
+    }
+  }
+  return(
+    <div>
+      { userAgent == 'ios' ? setupiOS() : setupAndroid() }
       <Button
       size='small'
       variant="contained"
       color="secondary"
-      onClick={ () => {
-        setupCurrent == 0 ? changeSetupPage(1) : setupCurrent == 1 ? changeSetupPage(2) : completeSetup()
-        }
-      }
+      onClick={ () => { setupNext()} }
       style={{float: 'right'}}>Next</Button>
     </div>
   )
