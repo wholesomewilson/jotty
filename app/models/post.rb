@@ -9,18 +9,16 @@ class Post < ApplicationRecord
   #before_destroy :alarm_destroy, if: -> {alarm.present?}
 
   after_create :create_reminders, if: -> {alarm.present?}
-  after_create :new_jotty_notifications, if: -> { self.recipient != self.poster }
+  after_create :new_jotty_notifications, if: -> {recipient != poster}
   after_update :update_reminders, if: -> {saved_change_to_alarm?}
   before_destroy :destroy_reminders
 
   def new_jotty_notifications
     if self.recipient.setuppush
-      @job = self.delay(:run_at => alarm).new_push
-      self.update_column(:job_id, @job.id)
+      self.new_push
     end
     if self.recipient.setuptelegram
-      @job = self.delay(:run_at => alarm).new_telegram
-      self.update_column(:job_id_telegram, @job.id)
+      self.new_telegram
     end
   end
 
@@ -129,5 +127,8 @@ class Post < ApplicationRecord
     uri = URI("https://api.telegram.org/bot#{@bottoken}/sendMessage")
     res = Net::HTTP.post_form(uri, 'chat_id' => @chat_id, 'text' => @text, 'parse_mode' => 'markdown')
   end
+
+  handle_asynchronously :new_push
+  handle_asynchronously :new_telegram
 
 end
