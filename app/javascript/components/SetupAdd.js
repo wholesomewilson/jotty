@@ -7,7 +7,7 @@ const SetupInstall = () => (
       <br/>
       <h2>Install App</h2>
       <br/>
-      <h1> GIF </h1>
+      <img style={{marginBottom: '10px'}} src={imagePath('./addtohomescreen.gif')} />
       <br/>
     </div>
   )
