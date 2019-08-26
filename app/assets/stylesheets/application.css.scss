@@ -14,14 +14,25 @@
  *= require_self
  */
 
+@import url('https://fonts.googleapis.com/css?family=Bree+Serif');
 
  .loginsignupform {
-   border: 3px solid #f1f1f1;
+   margin-top: 10px;
+   //border: 3px solid #f1f1f1;
    .container {
      padding: 16px;
    }
+   h1{
+     text-align: center;
+   }
    h2{
+     text-align: center;
+   }
+   h3{
      margin-top: 20px;
+     text-align: center;
+   }
+   h5{
      text-align: center;
    }
    input[type=number], input[type=password], input[type=text] {
@@ -44,6 +55,9 @@
    }
    button:hover {
      opacity: 0.8;
+   }
+   label{
+     font-size: 14px;
    }
  }
 
@@ -154,4 +168,8 @@ li{
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.newfont {
+  font-family: 'Bree Serif', serif;
 }
