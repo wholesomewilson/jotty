@@ -68,7 +68,7 @@ const Post = ({ post, updatePost, deletePost, current_user, forOthers }) => {
         </Grid>
         <Grid container direction="row" justify="space-between" alignItems="center">
           <Grid item>
-            <Typography variant="subtitle1"  style={{ minHeight:"10vh" }}>
+            <Typography variant="subtitle1" style={{ minHeight:"10vh", padding:"5px 0" }}>
               {post.body}
             </Typography>
           </Grid>

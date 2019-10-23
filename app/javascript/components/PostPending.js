@@ -65,7 +65,7 @@ const Post = ({ post, updatePost, deletePost, acceptPost, declinePost, current_u
         </Grid>
         <Grid container direction="row" justify="space-between" alignItems="center">
           <Grid item>
-            <Typography variant="subtitle1"  style={{ minHeight:"10vh" }}>
+            <Typography variant="subtitle1" style={{ minHeight:"10vh", padding:"5px 0" }}>
               {post.body}
             </Typography>
           </Grid>
@@ -85,18 +85,20 @@ const Post = ({ post, updatePost, deletePost, acceptPost, declinePost, current_u
               </Grid>
             </Grid>
           </Grid>
-          {
-            post.recipient_id == current_user.id ?
-            <div>
-              <AcceptDeclinePost onClickAcceptDeclinePost = {declinePost} postId = {post.id} posterfullname = {posterfullname} choice ="Decline" color="secondary"/>
-              <AcceptDeclinePost onClickAcceptDeclinePost = {acceptPost} postId = {post.id} posterfullname = {posterfullname} choice ="Accept" color="primary"/>
-            </div>
-              :
-              <Typography variant="body2" color="textSecondary" style={{ marginLeft:"10px" }}>
-                Waiting for {recipientfullname} to accept
-              </Typography>
-          }
           { post.alarm ? <AlarmInfo alarmmomenttime={alarmmomenttime} alarmmomentdate={alarmmomentdate}/> : null }
+        </Grid>
+        <Grid container direction="row" justify="flex-end" alignItems="center" style={{marginTop: '10px'}}>
+            {
+              post.recipient_id == current_user.id ?
+              <div>
+                <AcceptDeclinePost onClickAcceptDeclinePost = {declinePost} postId = {post.id} posterfullname = {posterfullname} choice ="Decline" color="secondary"/>
+                <AcceptDeclinePost onClickAcceptDeclinePost = {acceptPost} postId = {post.id} posterfullname = {posterfullname} choice ="Accept" color="primary"/>
+              </div>
+                :
+                <Typography variant="body2" color="textSecondary" style={{ marginLeft:"10px" }}>
+                  Waiting for {recipientfullname} to accept
+                </Typography>
+            }
         </Grid>
       </Paper>
     </div>

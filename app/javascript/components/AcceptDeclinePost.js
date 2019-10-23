@@ -8,7 +8,7 @@ class AcceptDeclinePost extends React.Component {
 
   render() {
     return (
-      <Button size="small" variant="contained" color={this.props.color} onClick = {this.handleClick} style={{ marginRight:"15px" }}>{this.props.choice}</Button>
+      <Button size="small" variant="contained" color={this.props.color} onClick = {this.handleClick} style={{ marginLeft:"15px" }}>{this.props.choice}</Button>
     );
   }
 }
