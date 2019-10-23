@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'permissions/create'
+  get 'permissions/destroy'
   root to: redirect('/posts')
   #
   authenticated :user do
@@ -19,11 +21,14 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :posts, only: %i[show create destroy update]
-    resources :searchusers, only: %i[index]
+    resources :permissions, only: %i[index create destroy update]
+    resources :searchusers, only: %i[index show]
+    resources :suggestedusers, only: %i[index]
     resources :currentusers, only: %i[index]
     get 'alarm', to: 'posts#alarm'
     get 'getownposts', to: 'posts#get_own_posts'
     get 'getotherposts', to: 'posts#get_other_posts'
+    get 'pending_posts', to: 'posts#pending_posts'
   end
 
   get '/service_worker.js' => "serviceworker#service_worker"

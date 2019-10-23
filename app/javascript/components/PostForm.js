@@ -18,9 +18,12 @@ import Typography from '@material-ui/core/Typography';
 import AddCircle from '@material-ui/icons/AddCircle';
 import AlarmIcon from '@material-ui/icons/Alarm';
 import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/DeleteOutlined';
+import DeletePost from './DeletePost';
 import moment from 'moment';
 import Chip from '@material-ui/core/Chip';
+import SuggestedList from './SuggestedList';
+import FaceIcon from '@material-ui/icons/Face';
+import DoneIcon from '@material-ui/icons/Done';
 
 class PostForm extends React.Component {
   constructor(props){
@@ -30,14 +33,20 @@ class PostForm extends React.Component {
       errors: {},
       showAlarm: props.post.alarm ? true : props.showAlarm ? props.showAlarm : false,
       searchedUser: {},
+      suggestedList: [],
       showSearchedUser: false,
-      hideRecipientInput: false,
-      formOpen: props.open ? props.open : false,
+      showRecipientName: false,
+      hideRecipientInput: true,
+      showSuggestedList: true,
+      formOpen: false,
       validateRecipient: true,
       validateDate: true,
       validateBody: true,
       validateAlarmPassed: true,
       validateAlarmOver: true,
+      enterMobileChipColor: "default",
+      enterMobileChipVariant: "outlined",
+      current_user: this.props.current_user
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInputChangeBody = this.handleInputChangeBody.bind(this);
@@ -49,10 +58,23 @@ class PostForm extends React.Component {
     this.handleOpenNew = this.handleOpenNew.bind(this);
     this.handleOpenEdit = this.handleOpenEdit.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.handleSuggestedRecipient = this.handleSuggestedRecipient.bind(this);
+    this.onClickOpenMobile = this.onClickOpenMobile.bind(this);
+    this.removeRecipient = this.removeRecipient.bind(this);
   }
 
   componentDidUpdate({ post }) {
     //this.setState({post});
+  }
+
+  componentDidMount(){
+    axios.get('/api/suggestedusers.json')
+    .then( response => {
+      this.setState({
+        suggestedList: response.data,
+      });
+    })
+    .catch(handleAjaxError);
   }
 
   validatePost(post) {
@@ -132,9 +154,7 @@ class PostForm extends React.Component {
     } else {
       const { onSubmit } = this.props;
       onSubmit(post)
-      this.setState({
-        formOpen: false,
-      })
+      this.handleClose();
     }
   }
 
@@ -155,11 +175,34 @@ class PostForm extends React.Component {
         }
       })
       .then( response => {
-        console.log(response)
+        // console.log(response)
         response.data == 'null' ? null : this.setState({ searchedUser: response.data, showSearchedUser: true })
       })
       .catch(handleAjaxError);
     }
+  }
+
+  handleSuggestedRecipient(id) {
+    const { searchedUser } = this.state;
+    axios.get(`/api/searchusers/${id}.json`)
+    .then( response => {
+      response.data == 'null' ?
+          null
+        :
+          this.setState( prevState => ({
+            searchedUser: response.data,
+            post: {
+              ...prevState.post,
+              recipient_id: response.data.id
+            },
+            showSearchedUser: false,
+            hideRecipientInput: true,
+            validateRecipient: true,
+            showRecipientName: true,
+            showSuggestedList: false,
+          }));
+    })
+    .catch(handleAjaxError);
   }
 
   handleDate(post) {
@@ -200,6 +243,14 @@ class PostForm extends React.Component {
     })
   }
 
+  onClickOpenMobile(){
+    this.setState({
+      hideRecipientInput: !this.state.hideRecipientInput,
+      enterMobileChipColor: this.state.enterMobileChipColor === "default" ? "secondary" : "default",
+      enterMobileChipVariant: this.state.enterMobileChipVariant === "outlined" ? "default" : "outlined",
+    })
+  }
+
   isEmptyObject(obj) {
     return Object.keys(obj).length === 0;
   }
@@ -226,7 +277,11 @@ class PostForm extends React.Component {
   renderSearchedUser(){
     const { searchedUser } = this.state;
     if (searchedUser){
-      const searchedUserName = searchedUser.first_name + ' ' + searchedUser.last_name
+      if(searchedUser.id === this.props.current_user.id){
+        var searchedUserName = 'Myself'
+      }else{
+        var searchedUserName = searchedUser.first_name + ' ' + searchedUser.last_name
+      }
       return <div><p style={{margin:'5px 0px', fontSize:'11px', color:'#f50057'}}>Select Recipient</p><Chip label= { searchedUserName } onClick={this.selectSearchUser}/></div>
       //<button type='button' onClick= {this.selectSearchUser}> {searchedUserName} </button>
     }else{
@@ -236,13 +291,16 @@ class PostForm extends React.Component {
 
   renderRecipientName(){
     const { searchedUser } = this.state;
-    const searchedUserName = searchedUser.first_name + ' ' + searchedUser.last_name
-    return <h4>{searchedUserName}</h4>
+    if(searchedUser.id === this.props.current_user.id){
+      var searchedUserName = 'Myself'
+    }else{
+      var searchedUserName = searchedUser.first_name + ' ' + searchedUser.last_name
+    }
+    return <Chip label={searchedUserName} onDelete={this.removeRecipient} color="primary" variant="default"/>
   }
 
   selectSearchUser() {
     const { searchedUser } = this.state;
-    const searchedUserName = searchedUser.first_name + ' ' + searchedUser.last_name
     this.setState( prevState => ({
       post: {
         ...prevState.post,
@@ -250,7 +308,9 @@ class PostForm extends React.Component {
       },
       showSearchedUser: false,
       hideRecipientInput: true,
-      validateRecipient: true
+      validateRecipient: true,
+      showRecipientName: true,
+      showSuggestedList: false,
     }));
   }
 
@@ -267,7 +327,7 @@ class PostForm extends React.Component {
       showAlarm: false,
       searchedUser: {},
       showSearchedUser: false,
-      hideRecipientInput: false,
+      hideRecipientInput: true,
       validateRecipient: true,
       validateDate: true,
       validateBody: true,
@@ -286,8 +346,26 @@ class PostForm extends React.Component {
   handleClose() {
     this.setState({
       formOpen: false,
-      showAlarm: false
+      showAlarm: false,
+      showRecipientName: false,
+      showSuggestedList: true,
+      enterMobileChipColor: "default",
+      enterMobileChipVariant: "outlined",
     });
+  }
+
+  removeRecipient(){
+    this.setState( prevState => ({
+      searchedUser: {},
+      post: {
+        ...prevState.post,
+        recipient_id: ""
+      },
+      showRecipientName: false,
+      showSuggestedList: true,
+      enterMobileChipColor: "default",
+      enterMobileChipVariant: "outlined",
+    }));
   }
 
   render(){
@@ -296,7 +374,17 @@ class PostForm extends React.Component {
     const { showAddCircle } = this.props;
     if (!post.id && path === '/posts/:id/edit') return <PostNotFound/>;
     const title = post.id ? 'Edit Post' : 'New Post';
-    const recipient_name = post.id ? `${post.recipient.first_name}` : this.state.hideRecipientInput ? null : <TextField autoFocus id="recipient_id" label="Recipient Mobile No." type="text" name="recipient_id" fullWidth onChange= {this.handleInputChangeName}/>;
+    const recipientInput = <div>
+      {this.state.showRecipientName ? this.renderRecipientName() : null}
+      {this.state.showSuggestedList ? <SuggestedList selectSuggestedUser = {this.handleSuggestedRecipient} suggestedList = {this.state.suggestedList} onClickOpenMobile = {this.onClickOpenMobile} enterMobileChipColor = {this.state.enterMobileChipColor} enterMobileChipVariant = {this.state.enterMobileChipVariant} current_user = {this.props.current_user}/> : null}
+      {this.state.hideRecipientInput ? null : <TextField style={{marginTop: "10px"}} autoFocus id="recipient_id" label="Recipient Mobile No." type="text" name="recipient_id" fullWidth onChange= {this.handleInputChangeName}/>}
+      {this.state.showSearchedUser ? this.renderSearchedUser() : null}
+      {this.state.validateRecipient ? null : <div style={{fontSize:'11px', color:'red', margin:'17px 0px 0px 5px'}}>Please choose a Recipient</div>}
+    </div>
+    if(post.id){
+      // const recipientName = this.state.current_user.id === post.recipient_id ? "Myself" : `${post.recipient.first_name} ${post.recipient.last_name}`
+    }
+    console.log("again")
     return (
       <div>
         {showAddCircle ? <AddCircle onClick={this.handleOpenNew} className="add_post_icon" color="primary"/> : <EditIcon onClick={this.handleOpenEdit} style={{marginLeft: '10px', fontSize:'18px'}}/>}
@@ -305,10 +393,9 @@ class PostForm extends React.Component {
             <DialogTitle id="form-dialog-title" style={{textAlign: "center"}}>{title}</DialogTitle>
             <DialogContent>
               <div>
-                {recipient_name}
-                {this.state.showSearchedUser ? this.renderSearchedUser() : null}
-                {this.state.hideRecipientInput ? this.renderRecipientName() : null}
-                {this.state.validateRecipient ? null : <div style={{fontSize:'11px', color:'red', margin:'17px 0px 0px 5px'}}>Please choose a Recipient</div>}
+              {
+                post.id ? `${post.recipient.first_name} ${post.recipient.last_name}` : recipientInput
+              }
               </div>
               <div style={{margin:'20px 0'}}>
                 <BasicDateTimePicker handleDate={this.handleDate} existingDate={this.state.post.date} pickerlabel= "Date"/>
@@ -326,13 +413,10 @@ class PostForm extends React.Component {
                 {this.state.validateBody ? null : <div style={{fontSize:'11px', color:'red', margin:'17px 0px 0px 5px'}}>Message cannot be empty</div>}
               </div>
             </DialogContent>
-            <Grid
-              justify="space-between" // Add it here :)
-              container
-            >
+            <Grid justify="space-between" container>
               <Grid item>
                 <DialogActions>
-                { post.id ? <DeleteIcon style={{marginTop: '4px', marginLeft: '11px'}} onClick= { () => this.props.deletePost(post.id)}/> : null }
+                  { post.id ? <DeletePost onClickDeletePost = {this.props.deletePost} postId = {post.id}/> : null }
                 </DialogActions>
               </Grid>
               <Grid item>

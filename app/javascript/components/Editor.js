@@ -15,6 +15,8 @@ import moment from 'moment';
 import PostFilter from './PostFilter';
 import SubApp from './SubApp';
 import Setup from './Setup';
+import BottomNav from './BottomNav';
+import FriendList from './FriendList';
 
 class Editor extends React.Component {
   constructor(props){
@@ -22,17 +24,25 @@ class Editor extends React.Component {
     this.state = {
       ownPosts: null,
       otherPosts: null,
+      pendingPosts: null,
       current_user: null,
-      showOwnPost: true,
+      showWhichPost: 'own',
       userSetup: null,
       postFilterMyColor: "primary",
-      postFilterOtherColor: "default"
+      postFilterOtherColor: "default",
+      postFilterPendingColor: "default",
+      showJotty: "jotties",
+      userPermissions: null,
     };
   this.addPost = this.addPost.bind(this);
   this.updatePost = this.updatePost.bind(this);
+  this.acceptPost = this.acceptPost.bind(this);
+  this.declinePost = this.declinePost.bind(this);
   this.onClickPostFilterMy = this.onClickPostFilterMy.bind(this);
   this.onClickPostFilterOther = this.onClickPostFilterOther.bind(this);
+  this.onClickPostFilterPending = this.onClickPostFilterPending.bind(this);
   this.deletePost = this.deletePost.bind(this);
+  this.onClickBtmNav = this.onClickBtmNav.bind(this);
   }
 
   componentDidMount(){
@@ -57,7 +67,7 @@ class Editor extends React.Component {
         this.setState({
           ownPosts: response.data,
         })
-        //console.log(response.data)
+         // console.log(response.data)
       })
       .catch(handleAjaxError);
     axios
@@ -66,7 +76,25 @@ class Editor extends React.Component {
         this.setState({
           otherPosts: response.data,
         })
-        //console.log(response.data)
+         // console.log(response.data)
+      })
+      .catch(handleAjaxError);
+    axios
+      .get('/api/pending_posts.json')
+      .then(response => {
+        this.setState({
+          pendingPosts: response.data,
+        })
+        // console.log(response.data)
+      })
+      .catch(handleAjaxError);
+    axios
+      .get('/api/permissions.json')
+      .then(response => {
+        this.setState({
+          userPermissions: response.data,
+        })
+        // console.log(response.data)
       })
       .catch(handleAjaxError);
   }
@@ -83,12 +111,20 @@ class Editor extends React.Component {
             ownPosts: [...prevState.ownPosts, savedPost],
           }));
         }else{
-          this.setState(prevState => ({
-            otherPosts: [...prevState.otherPosts, savedPost],
-          }));
+          if(savedPost.approved){
+            this.setState(prevState => ({
+              otherPosts: [...prevState.otherPosts, savedPost],
+            }));
+          }
+          else{
+            this.setState(prevState => ({
+              pendingPosts: [...prevState.pendingPosts, savedPost],
+            }));
+          }
         }
         //const { history } = this.props;
         //history.push(`/posts/${savedPost.id}`);
+        // console.log(response);
       })
       .catch(handleAjaxError);
   }
@@ -109,17 +145,55 @@ class Editor extends React.Component {
         otherPosts[idx] = updatedPost;
         this.setState( { otherPosts });
       }
-      /*
-      const { posts } = this.state;
-      const idx = posts.findIndex(post => post.id === updatedPost.id);
-      posts[idx] = updatedPost;
-      const { history } = this.props;
-      history.push(`/posts/${updatedPost.id}`);
-      this.setState( { posts });
-      */
     })
     .catch(handleAjaxError);
   }
+
+  acceptPost(post_id, posterfullname) {
+    let sure = window.confirm(`${posterfullname} will be allowed to send you Jotties. Do you want to continue?`);
+    if (sure){
+      axios
+        .post('/api/permissions.json', {
+            post_id: post_id
+        })
+        .then((response) => {
+          success('Jotty Accepted!');
+          let { pendingPosts } = this.state;
+          let idx = pendingPosts.findIndex(post => post.id === post_id);
+          let newPost = pendingPosts[idx];
+          newPost.approved = true;
+          pendingPosts.splice(idx, 1);
+          this.setState( prevState => ({
+            ownPosts: [...prevState.ownPosts, newPost],
+            pendingPosts: pendingPosts
+          }));
+        })
+        .catch(handleAjaxError);
+    }
+  }
+
+  declinePost(post_id, posterfullname) {
+      let sure = window.confirm(`${posterfullname} will not be allowed to send you any Jotties. Do you want to continue?`);
+      if (sure){
+        axios.delete(`/api/posts/${post_id}.json`, {
+          params: {
+            ban: true
+          }
+        })
+        .then( response => {
+          if (response.status === 204){
+            success('Jotty Declined!');
+            let { pendingPosts } = this.state;
+            let idx = pendingPosts.findIndex(post => post.id === post_id);
+            let newPost = pendingPosts[idx];
+            pendingPosts.splice(idx, 1);
+            this.setState({ pendingPosts: pendingPosts });
+          }
+        })
+        .catch(handleAjaxError);
+      }
+  }
+
 
   pushNotty(){
     axios.get(`/api/alarm`).then( response => {
@@ -130,18 +204,35 @@ class Editor extends React.Component {
 
   onClickPostFilterMy(){
     this.setState({
-      showOwnPost: true,
+      showWhichPost: 'own',
       postFilterMyColor: "primary",
       postFilterOtherColor: "default",
+      postFilterPendingColor: "default"
     })
   }
 
   onClickPostFilterOther(){
     this.setState({
-      showOwnPost: false,
+      showWhichPost: 'other',
       postFilterMyColor: "default",
       postFilterOtherColor: "primary",
+      postFilterPendingColor: "default"
     })
+  }
+
+  onClickPostFilterPending(){
+    this.setState({
+      showWhichPost: 'pending',
+      postFilterMyColor: "default",
+      postFilterOtherColor: "default",
+      postFilterPendingColor: "primary"
+    })
+  }
+
+  onClickBtmNav(e, v){
+    this.setState({
+      showJotty: v,
+    });
   }
 
   deletePost(postId) {
@@ -168,32 +259,47 @@ class Editor extends React.Component {
     if (ownPosts === null) return null;
     const { otherPosts } = this.state;
     if (otherPosts === null) return null;
-    //const setup = this.state.current_user.setup;
-    //const { match } = this.props;
-    //const postId = match.params.id;
-    //const post = ownPosts.find(x => x.id === Number(postId))
+    const { pendingPosts } = this.state;
+    if (pendingPosts === null) return null;
+    if(this.state.userSetup){
+      var mainPage =
+        <div>
+          <BottomNav onClickBtmNav = {this.onClickBtmNav} addPost={this.addPost} showAddCircle={true} current_user = {this.state.current_user}/>
+          { this.state.showJotty == 'jotties' ?
+            <SubApp
+              onClickPostFilterMy = {this.onClickPostFilterMy}
+              onClickPostFilterPending = {this.onClickPostFilterPending}
+              onClickPostFilterOther = {this.onClickPostFilterOther}
+              postFilterMyColor={this.state.postFilterMyColor}
+              postFilterOtherColor={this.state.postFilterOtherColor}
+              postFilterPendingColor={this.state.postFilterPendingColor}
+              current_user = {this.state.current_user}
+              updatePost = {this.updatePost}
+              addPost = {this.addPost}
+              deletePost = {this.deletePost}
+              acceptPost = {this.acceptPost}
+              declinePost = {this.declinePost}
+              showAddCircle= {true}
+              showWhichPost = {this.state.showWhichPost}
+              ownPosts = {ownPosts}
+              otherPosts = {otherPosts}
+              pendingPosts = {pendingPosts}
+            />
+            :
+              <FriendList list = {this.state.userPermissions}/>
+          }
+        </div>
+    }else{
+      var mainPage = <Setup current_user = {this.state.current_user}/>
+    }
+
     return(
-      <div style={{padding: '0px 15px'}}>
+      <div>
         <Header />
-        { this.state.userSetup ?
-          <SubApp
-            onClickPostFilterMy = {this.onClickPostFilterMy}
-            onClickPostFilterOther = {this.onClickPostFilterOther}
-            postFilterMyColor={this.state.postFilterMyColor}
-            postFilterOtherColor={this.state.postFilterOtherColor}
-            current_user = {this.state.current_user}
-            updatePost = {this.updatePost}
-            addPost= {this.addPost}
-            deletePost= {this.deletePost}
-            showAddCircle= {true}
-            showOwnPost = {this.state.showOwnPost}
-            ownPosts = {ownPosts}
-            otherPosts = {otherPosts}
-          />
-        :
-          <Setup current_user = {this.state.current_user}/>
-        }
+        {mainPage}
       </div>
+
+
     );
   }
 }

@@ -12,8 +12,9 @@ import Typography from '@material-ui/core/Typography';
 import AlarmIcon from '@material-ui/icons/Alarm';
 import EditIcon from '@material-ui/icons/Edit';
 import Button from '@material-ui/core/Button';
+import AcceptDeclinePost from './AcceptDeclinePost';
 
-const Post = ({ post, updatePost, deletePost, current_user, forOthers }) => {
+const Post = ({ post, updatePost, deletePost, acceptPost, declinePost, current_user }) => {
 
   const useStyles = makeStyles(theme => ({
   root: {
@@ -50,11 +51,9 @@ const Post = ({ post, updatePost, deletePost, current_user, forOthers }) => {
   const alarmmomentdate = moment(post.alarm).utc(true).format('DD-MM-YYYY')
   const alarmmomenttime = moment(post.alarm).utc(true).format('hh:mm A')
   const posterfullname = post.poster.first_name + ' ' + post.poster.last_name
-  const recipientfullname = post.recipient.first_name + ' ' + post.recipient.last_name
+  const recipientfullname = post.recipient.first_name
   const currentuserfullname = current_user.first_name + ' ' + current_user.last_name
-  // const postersignoff = posterfullname === currentuserfullname ? 'Myself' : posterfullname
-  const postersignoff = forOthers ? recipientfullname : posterfullname === currentuserfullname ? 'Myself' : posterfullname;
-  const avatar = forOthers ? recipientfullname.charAt(0) : posterfullname.charAt(0);
+  const postersignoff = posterfullname === currentuserfullname ? 'Myself' : posterfullname
   return (
     <div>
       <Paper className={classes.paper}>
@@ -62,9 +61,7 @@ const Post = ({ post, updatePost, deletePost, current_user, forOthers }) => {
         <Typography variant="subtitle2" color="textSecondary">
           {datemoment}
         </Typography>
-        <Typography variant="subtitle2" color="textSecondary">
-         <PostForm path="/posts/:id/edit" onSubmit={updatePost} deletePost={deletePost} post={post} showAddCircle={false} temptrue={true}/>
-         </Typography>
+
         </Grid>
         <Grid container direction="row" justify="space-between" alignItems="center">
           <Grid item>
@@ -77,7 +74,7 @@ const Post = ({ post, updatePost, deletePost, current_user, forOthers }) => {
         </Grid>
         <Grid container alignItems="center" justify="space-between">
           <Grid item>
-            <Avatar aria-label="poster" style={{width: 30,height: 30}}>{avatar}</Avatar>
+          <Avatar aria-label="poster" style={{width: 30,height: 30}}>{post.poster.first_name.charAt(0)}</Avatar>
           </Grid>
           <Grid item xs sm>
             <Grid item xs container direction="column">
@@ -88,6 +85,17 @@ const Post = ({ post, updatePost, deletePost, current_user, forOthers }) => {
               </Grid>
             </Grid>
           </Grid>
+          {
+            post.recipient_id == current_user.id ?
+            <div>
+              <AcceptDeclinePost onClickAcceptDeclinePost = {declinePost} postId = {post.id} posterfullname = {posterfullname} choice ="Decline" color="secondary"/>
+              <AcceptDeclinePost onClickAcceptDeclinePost = {acceptPost} postId = {post.id} posterfullname = {posterfullname} choice ="Accept" color="primary"/>
+            </div>
+              :
+              <Typography variant="body2" color="textSecondary" style={{ marginLeft:"10px" }}>
+                Waiting for {recipientfullname} to accept
+              </Typography>
+          }
           { post.alarm ? <AlarmInfo alarmmomenttime={alarmmomenttime} alarmmomentdate={alarmmomentdate}/> : null }
         </Grid>
       </Paper>

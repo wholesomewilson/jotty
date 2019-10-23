@@ -10,26 +10,56 @@ class Post < ApplicationRecord
 
   after_create :create_reminders, if: -> {alarm.present?}
   after_create :new_jotty_notifications, if: -> {recipient != poster}
+  before_create :check_permission
   after_update :update_reminders, if: -> {saved_change_to_alarm?}
   before_destroy :destroy_reminders
 
-  def new_jotty_notifications
-    if self.recipient.setuppush
-      self.new_push
+  def check_permission
+    if self.poster == self.recipient #check if user create Jotty for himself
+      self.approved = true
+    else
+      if self.recipient.friends.include?(self.poster) # check if poster is in user's friend list
+        if !self.recipient.permissions.find_by_friend_id(self.poster.id).ban # check if poster not in banlist
+          self.approved = true
+        else # poster in banlist
+          self.errors.add(:ban, "You are not allowed to send #{self.recipient.first_name} any Jotty.")
+          throw(:abort)
+        end
+      else
+        if self.recipient.own_posts.where(poster: self.poster).count > 0 # check if user has any Jotty from poster before
+          self.errors.add(:ban, "#{self.recipient.first_name} hasn't accepted your first Jotty!")
+          throw(:abort)
+        elsif self.poster.own_posts.where(poster: self.recipient).count > 0 #check if user has any unaceepted Jotty from recipient
+          self.errors.add(:ban, "You have to accept #{self.recipient.first_name}'s Jotty first!")
+          throw(:abort)
+        else
+          self.approved = false
+        end
+      end
     end
-    if self.recipient.setuptelegram
-      self.new_telegram
+  end
+
+  def new_jotty_notifications
+    if self.approved
+      if self.recipient.setuppush
+        self.new_push
+      end
+      if self.recipient.setuptelegram
+        self.new_telegram
+      end
     end
   end
 
   def create_reminders
-    if self.recipient.setuppush
-      @job = self.delay(:run_at => alarm).alarm_push
-      self.update_column(:job_id, @job.id)
-    end
-    if self.recipient.setuptelegram
-      @job = self.delay(:run_at => alarm).alarm_telegram
-      self.update_column(:job_id_telegram, @job.id)
+    if self.approved
+      if self.recipient.setuppush
+        @job = self.delay(:run_at => alarm).alarm_push
+        self.update_column(:job_id, @job.id)
+      end
+      if self.recipient.setuptelegram
+        @job = self.delay(:run_at => alarm).alarm_telegram
+        self.update_column(:job_id_telegram, @job.id)
+      end
     end
   end
 
@@ -128,6 +158,9 @@ class Post < ApplicationRecord
     res = Net::HTTP.post_form(uri, 'chat_id' => @chat_id, 'text' => @text, 'parse_mode' => 'markdown')
   end
 
+  def accepted
+    self.update_attribute(:approved, true)
+  end
   handle_asynchronously :new_push
   handle_asynchronously :new_telegram
 

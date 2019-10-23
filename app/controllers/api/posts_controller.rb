@@ -5,14 +5,24 @@ class Api::PostsController < ApplicationController
   respond_to :json
 
   def get_own_posts
-    @own_posts = current_user.own_posts.where("date > ?", DateTime.current).order(date: :DESC)
+    @own_posts = current_user.own_posts.where(approved: true).where("date > ?", DateTime.current).order(date: :DESC)
     respond_with(@own_posts, :include => add_attr_post, :except => remove_attr_post)
   end
 
   def get_other_posts
-    @other_posts = current_user.other_posts.where.not(recipient: current_user).where("date > ?", DateTime.current).order(date: :DESC)
+    @other_posts = current_user.other_posts.where(approved: true).where.not(recipient: current_user).where("date > ?", DateTime.current).order(date: :DESC)
     respond_with(@other_posts, :include => add_attr_post, :except => remove_attr_post)
   end
+
+  def pending_posts
+    @pending_posts = current_user.own_posts.where(approved: false).where("date > ?", DateTime.current).order(date: :DESC) | current_user.other_posts.where(approved: false).where.not(recipient: current_user).where("date > ?", DateTime.current).order(date: :DESC)
+    respond_with(@pending_posts, :include => add_attr_post, :except => remove_attr_post)
+  end
+
+  # def pending_posts_other
+  #   @pending_posts_other = current_user.other_posts.where(approved: false).where.not(recipient: current_user).where("date > ?", DateTime.current).order(date: :DESC)
+  #   respond_with(@pending_posts_other, :include => add_attr_post, :except => remove_attr_post)
+  # end
 
   def show
     respond_with Post.find(params[:id])
@@ -25,10 +35,22 @@ class Api::PostsController < ApplicationController
     else
       @post = @recipient.own_posts.create(post_params.merge(poster: current_user))
     end
-    respond_with(:api, @post, :include => add_attr_post, :except => remove_attr_post)
+    if @post.save
+      respond_with(:api, @post, :include => add_attr_post, :except => remove_attr_post)
+    else
+      respond_to do |format|
+        format.json { render json: @post.errors[:ban], status: :unprocessable_entity }
+      end
+    end
   end
 
   def destroy
+    if params[:ban]
+      @post = Post.find(params[:id])
+      @friend = @post.poster
+      @permission = current_user.permissions.create(friend: @friend, ban: params[:ban])
+      # @inverse_permission = @friend.permissions.create(friend: current_user, ban: params[:ban])
+    end
     respond_with Post.destroy(params[:id])
   end
 

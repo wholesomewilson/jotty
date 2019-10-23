@@ -36,14 +36,9 @@ const Setup = ({ current_user }) => {
     }
   }
   return(
-    <div>
+    <div style={{padding: "0px 15px"}}>
       { userAgent == 'ios' ? setupiOS() : setupAndroid() }
-      <Button
-      size='small'
-      variant="contained"
-      color="secondary"
-      onClick={ () => { setupNext()} }
-      style={{float: 'right'}}>Next</Button>
+      <Button size='small' variant="contained" color="secondary" onClick={setupNext} style={{float: 'right'}}>Next</Button>
     </div>
   )
 }

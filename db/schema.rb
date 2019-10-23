@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_22_012857) do
+ActiveRecord::Schema.define(version: 2019_10_19_092234) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,16 +30,12 @@ ActiveRecord::Schema.define(version: 2019_08_22_012857) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
-  create_table "friends", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "permissions", force: :cascade do |t|
     t.integer "user_id"
     t.integer "friend_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "ban"
     t.index ["friend_id"], name: "index_permissions_on_friend_id"
     t.index ["user_id"], name: "index_permissions_on_user_id"
   end
@@ -56,6 +52,7 @@ ActiveRecord::Schema.define(version: 2019_08_22_012857) do
     t.integer "timezone_offset"
     t.integer "job_id"
     t.integer "job_id_telegram"
+    t.boolean "approved"
     t.index ["poster_id"], name: "index_posts_on_poster_id"
     t.index ["recipient_id"], name: "index_posts_on_recipient_id"
   end
