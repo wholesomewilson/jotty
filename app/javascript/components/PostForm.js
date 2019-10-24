@@ -412,7 +412,7 @@ class PostForm extends React.Component {
             <Grid justify="space-between" container>
               <Grid item>
                 <DialogActions>
-                  { post.id ? <DeletePost onClickDeletePost = {this.props.deletePost} postId = {post.id}/> : null }
+                  { post.id ? <DeletePost onClickDeletePost = {this.props.deletePost} postId = {post.id} marginL = "11px"/> : null }
                 </DialogActions>
               </Grid>
               <Grid item>

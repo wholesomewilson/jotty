@@ -13,6 +13,7 @@ import AlarmIcon from '@material-ui/icons/Alarm';
 import EditIcon from '@material-ui/icons/Edit';
 import Button from '@material-ui/core/Button';
 import AcceptDeclinePost from './AcceptDeclinePost';
+import DeletePost from './DeletePost';
 
 const Post = ({ post, updatePost, deletePost, acceptPost, declinePost, current_user }) => {
 
@@ -87,7 +88,11 @@ const Post = ({ post, updatePost, deletePost, acceptPost, declinePost, current_u
           </Grid>
           { post.alarm ? <AlarmInfo alarmmomenttime={alarmmomenttime} alarmmomentdate={alarmmomentdate}/> : null }
         </Grid>
-        <Grid container direction="row" justify="flex-end" alignItems="center" style={{marginTop: '10px'}}>
+        <Grid container direction="row" justify="space-between" alignItems="center" style={{marginTop: '10px'}}>
+          <Grid item>
+            <DeletePost onClickDeletePost = {deletePost} postId = {post.id} marginL ='0px'/>
+          </Grid>
+          <Grid item>
             {
               post.recipient_id == current_user.id ?
               <div>
@@ -99,6 +104,7 @@ const Post = ({ post, updatePost, deletePost, acceptPost, declinePost, current_u
                   Waiting for {recipientfullname} to accept
                 </Typography>
             }
+          </Grid>
         </Grid>
       </Paper>
     </div>

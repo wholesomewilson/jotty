@@ -9,7 +9,7 @@ class DeletePost extends React.Component {
 
   render() {
     return (
-      <DeleteIcon style={{marginTop: '4px', marginLeft: '11px'}} onClick= {this.handleClick}/>
+      <DeleteIcon style={{marginTop: '4px', marginLeft: this.props.marginL}} onClick= {this.handleClick}/>
     );
   }
 }
