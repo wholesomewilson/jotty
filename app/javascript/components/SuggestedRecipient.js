@@ -8,7 +8,7 @@ class SuggestedRecipient extends React.Component {
   }
 
   render() {
-    const label = this.props.value === this.props.current_user.id ? "Myself" : this.props.user.first_name
+    const label = this.props.value === this.props.current_user.id ? "Myself" : `${this.props.user.first_name} ${this.props.user.last_name}`
     return (
       <Chip avatar={<Avatar>{this.props.user.first_name.charAt(0)}</Avatar>} size="small" label={label} onClick = {this.handleClick} variant="outlined" color="primary"/>
     );
