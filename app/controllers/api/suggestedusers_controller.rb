@@ -3,7 +3,8 @@ class Api::SuggestedusersController < ApplicationController
   respond_to :json
   def index
     # find recipients with the highest count of user other_posts
-    @user_ids = current_user.other_posts.where.not(recipient: current_user).group(:recipient_id).count.sort_by {|k,v| v}.to_h.keys.last(3)
+    # @user_ids = current_user.other_posts.where.not(recipient: current_user).group(:recipient_id).count.sort_by {|k,v| v}.to_h.keys.last(3)
+    @user_ids = current_user.friends.map { |f| f.own_posts.where(poster: current_user).group(:recipient_id).count }.sort_by {|k,v| v}.last(3).map { |h| h.keys[0] }
     @users = User.where(id: @user_ids)
     respond_with(@users, :except => remove_attr_user)
   end
