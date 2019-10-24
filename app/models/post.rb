@@ -13,7 +13,7 @@ class Post < ApplicationRecord
   before_create :check_permission
   after_update :update_reminders, if: -> {saved_change_to_alarm?}
   before_destroy :destroy_reminders
-  after_create :new_first_jotty_notification, if: -> {!recipient.friends.include?(poster)}
+  after_create :new_first_jotty_notification, if: -> {recipient != poster && !recipient.friends.include?(poster)}
 
   def check_permission
     if self.poster == self.recipient #check if user create Jotty for himself
