@@ -13,6 +13,7 @@ class Post < ApplicationRecord
   before_create :check_permission
   after_update :update_reminders, if: -> {saved_change_to_alarm?}
   before_destroy :destroy_reminders
+  after_create :new_first_jotty_notification, if: -> {!recipient.friends.include?(poster)}
 
   def check_permission
     if self.poster == self.recipient #check if user create Jotty for himself
@@ -161,6 +162,55 @@ class Post < ApplicationRecord
   def accepted
     self.update_attribute(:approved, true)
   end
+
+  def new_first_jotty_notification
+    if self.recipient.setuppush
+      self.new_first_push
+    end
+    if self.recipient.setuptelegram
+      self.new_first_telegram
+    end
+  end
+
+  def new_first_push
+    @endpoint = recipient.endpoint
+    @p256dh = recipient.p256dh
+    @auth = recipient.auth
+    @message = {
+      title: "You have a new pending Jotty from " + poster.first_name + " " + poster.last_name,
+      body: body,
+      data: {
+        url: Rails.application.routes.url_helpers.posts_url
+      }
+    }
+    Webpush.payload_send(
+      message: JSON.generate(@message),
+      endpoint: @endpoint,
+      p256dh: @p256dh,
+      auth: @auth,
+      ttl: 60,
+      vapid: {
+        subject: 'New Jotty',
+        public_key:'BEml3OHtzGWsySwKW-Xk2JFMr3kQtHYABXIvF8KH2mdqNQVu5mmQ3CYO1eBCj6jcBn4og9TDQOfd_dLbhlCpiro',
+        private_key: 'Ygcz7o3MbR9GljZF4etk772JfFJU2cw0TAKaDz61h0E',
+        expiration: 24 * 60 * 60
+      }
+    )
+  end
+
+  def new_first_telegram
+    @chat_id = self.recipient.chat_id
+    @parse_mode = 'html'
+    @date = "*#{date.in_time_zone("Asia/Singapore").strftime("%e %b %Y %l:%M%P")}*"
+    @body = body
+    @poster = self.poster.first_name + ' ' + self.poster.last_name
+    @url = "[Go to Jotty](https://safe-caverns-89301.herokuapp.com)"
+    @text = "You have a new pending Jotty\n\n#{@date}\n\n#{@body}\n\n#{@poster}\n\n#{@url}"
+    @bottoken = Rails.application.credentials.tele_token
+    uri = URI("https://api.telegram.org/bot#{@bottoken}/sendMessage")
+    res = Net::HTTP.post_form(uri, 'chat_id' => @chat_id, 'text' => @text, 'parse_mode' => 'markdown')
+  end
+
   handle_asynchronously :new_push
   handle_asynchronously :new_telegram
 
