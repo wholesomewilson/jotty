@@ -90,7 +90,9 @@ const Post = ({ post, updatePost, deletePost, acceptPost, declinePost, current_u
         </Grid>
         <Grid container direction="row" justify="space-between" alignItems="center" style={{marginTop: '10px'}}>
           <Grid item>
-            <DeletePost onClickDeletePost = {deletePost} postId = {post.id} marginL ='0px'/>
+            {
+              current_user.id !== post.recipient_id ? <DeletePost onClickDeletePost = {deletePost} postId = {post.id} marginL ='0px'/> : null
+            }
           </Grid>
           <Grid item>
             {

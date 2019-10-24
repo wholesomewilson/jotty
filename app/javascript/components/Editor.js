@@ -149,17 +149,17 @@ class Editor extends React.Component {
     .catch(handleAjaxError);
   }
 
-  acceptPost(post_id, posterfullname) {
+  acceptPost(postId, posterfullname) {
     let sure = window.confirm(`${posterfullname} will be allowed to send you Jotties. Do you want to continue?`);
     if (sure){
       axios
         .post('/api/permissions.json', {
-            post_id: post_id
+            post_id: postId
         })
         .then((response) => {
           success('Jotty Accepted!');
           let { pendingPosts } = this.state;
-          let idx = pendingPosts.findIndex(post => post.id === post_id);
+          let idx = pendingPosts.findIndex(post => post.id === postId);
           let newPost = pendingPosts[idx];
           newPost.approved = true;
           pendingPosts.splice(idx, 1);
@@ -172,10 +172,10 @@ class Editor extends React.Component {
     }
   }
 
-  declinePost(post_id, posterfullname) {
+  declinePost(postId, posterfullname) {
       let sure = window.confirm(`${posterfullname} will not be allowed to send you any Jotties. Do you want to continue?`);
       if (sure){
-        axios.delete(`/api/posts/${post_id}.json`, {
+        axios.delete(`/api/posts/${postId}.json`, {
           params: {
             ban: true
           }
@@ -184,10 +184,9 @@ class Editor extends React.Component {
           if (response.status === 204){
             success('Jotty Declined!');
             let { pendingPosts } = this.state;
-            let idx = pendingPosts.findIndex(post => post.id === post_id);
-            let newPost = pendingPosts[idx];
-            pendingPosts.splice(idx, 1);
-            this.setState({ pendingPosts: pendingPosts });
+            this.setState({
+              pendingPosts: pendingPosts.filter( post => post.id !== postId)
+            });
           }
         })
         .catch(handleAjaxError);
@@ -244,9 +243,11 @@ class Editor extends React.Component {
           success('Post deleted!');
           const { ownPosts } = this.state;
           const { otherPosts } = this.state;
+          const { pendingPosts } = this.state;
           this.setState({
             ownPosts: ownPosts.filter( post => post.id !== postId),
-            otherPosts: otherPosts.filter( post => post.id !== postId)
+            otherPosts: otherPosts.filter( post => post.id !== postId),
+            pendingPosts: pendingPosts.filter( post => post.id !== postId)
           });
         }
       })
