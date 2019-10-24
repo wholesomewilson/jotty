@@ -5,13 +5,12 @@ class Permission < ApplicationRecord
   after_create :new_friend_notifications, if: -> {!ban}
 
   def new_friend_notifications
-    puts "yay! new friend!"
-    # if self.recipient.setuppush
-    #   self.new_friend_push
-    # end
-    # if self.recipient.setuptelegram
-    #   self.new_friend_telegram
-    # end
+    if self.friend.setuppush
+      self.new_friend_push
+    end
+    if self.friend.setuptelegram
+      self.new_friend_telegram
+    end
   end
 
   def new_friend_push
