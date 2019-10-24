@@ -213,5 +213,6 @@ class Post < ApplicationRecord
 
   handle_asynchronously :new_push
   handle_asynchronously :new_telegram
-
+  handle_asynchronously :new_first_push
+  handle_asynchronously :new_first_telegram
 end

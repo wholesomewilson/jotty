@@ -381,10 +381,6 @@ class PostForm extends React.Component {
       {this.state.showSearchedUser ? this.renderSearchedUser() : null}
       {this.state.validateRecipient ? null : <div style={{fontSize:'11px', color:'red', margin:'17px 0px 0px 5px'}}>Please choose a Recipient</div>}
     </div>
-    if(post.id){
-      // const recipientName = this.state.current_user.id === post.recipient_id ? "Myself" : `${post.recipient.first_name} ${post.recipient.last_name}`
-    }
-    console.log("again")
     return (
       <div>
         {showAddCircle ? <AddCircle onClick={this.handleOpenNew} className="add_post_icon" color="primary"/> : <EditIcon onClick={this.handleOpenEdit} style={{marginLeft: '10px', fontSize:'18px'}}/>}
