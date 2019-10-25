@@ -42,7 +42,7 @@ body, html {
 .noteboard_wrapper{
   position: relative;
   text-align: center;
-  background-image: url("noteboard.svg");
+  background-image: asset_url("noteboard.svg");
   height: 100%;
   background-attachment: fixed;
   background-position: center;
@@ -91,7 +91,7 @@ body, html {
 .notephone_wrapper{
   position: relative;
   text-align: center;
-  background-image: url("notephone.svg");
+  background-image: asset_url("notephone.svg");
   height: 59%;
   width: 100%;
   background-position: center;
@@ -109,7 +109,7 @@ body, html {
 .why_div{
   position: relative;
   text-align: center;
-  background-image: url("send.svg");
+  background-image: asset_url("send.svg");
   height: 59%;
   width: 100%;
   background-position: center left;
@@ -133,14 +133,12 @@ body, html {
 .save_earth_wrapper{
   position: relative;
   text-align: center;
-  background-image: url("earth.svg");
+  background-image: asset_url("earth.svg");
   height: 59%;
   width: 100%;
   background-position: center bottom;
   background-repeat: no-repeat;
   background-size: 50% 50%;
-  // background-size: cover;
-  // background-color: #E6E8EC;
 }
 
 .save_earth{
