@@ -1,0 +1,48 @@
+<div class="header">
+  <div class="logo newfont">Jotty</div>
+  <%= link_to posts_path do %>
+    <div class="signin newfont">Login/Sign Up</div>
+  <% end %>
+</div>
+
+<div class="noteboard_wrapper">
+  <h1 class="ditch_that">Ditch that Sticky Note</h1>
+  <h1 class="from_this">From this</h1>
+</div>
+
+<div class="to_this_wrapper">
+  <h1 class="to_this newfont">To this</h1>
+</div>
+
+<div class="notephone_wrapper"></div>
+
+<div class="why_div">
+  <h1 class="send_jotty newfont">Send a <strong>Jotty</strong> to remind instead</h1>
+</div>
+
+<div class="save_earth_wrapper">
+  <h1 class="save_earth newfont">Save <strong>Earth<br></strong> </h1>
+  <%= link_to posts_path do %>
+    <h1 class="use_jotty newfont">Use <strong>Jotty</strong><%= image_tag "bear.png", size:"32x32", class:"baboon_icon" %></h1>
+  <% end %>
+</div>
+
+<div class="footer newfont">
+  Wilson Wan Copyright © 2019 All rights reserved.
+</div>
+
+<script>
+
+  $(document).scroll(function(){
+    $(".noteboard_wrapper, .header").css("opacity", 1.16 - $(window).scrollTop() / 600);
+  });
+
+  $(document).scroll(function(){
+    $(".from_this, .ditch_that").css("opacity", 1 - $(window).scrollTop() / 120);
+  });
+
+  $(document).scroll(function(){
+    $(".to_this_wrapper, .notephone_wrapper").css("opacity", $(window).scrollTop() / 400);
+  });
+
+</script>

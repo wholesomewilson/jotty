@@ -14,7 +14,12 @@
  *= require_self
  */
 
-@import url('https://fonts.googleapis.com/css?family=Bree+Serif');
+@import url('https://fonts.googleapis.com/css?family=Bree+Serif|Rock+Salt');
+
+a {
+  color: inherit; /* blue colors for links too */
+  text-decoration: inherit; /* no underline */
+}
 
  .loginsignupform {
    margin-top: 20px;
@@ -175,4 +180,17 @@ li{
 
 .logoimagewrapper{
   text-align: center;
+}
+
+.footer{
+  text-align: center;
+  font-size: 10px;
+  color: #fff;
+  margin-top: 30px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background-color: #3F3D56;
+  p{
+    padding: 5px 0;
+  }
 }

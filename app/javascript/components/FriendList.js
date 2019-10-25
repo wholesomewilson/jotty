@@ -22,7 +22,7 @@ class FriendList extends React.Component{
 
   renderFriends(){
     const { list } = this.state;
-    const sortFriends = list.filter( x => !x.ban).sort( (a,b) => a.friend.first_name === b.friend.first_name ? 0 : a.friend.first_name > b.friend.first_name ? 1 : -1);;
+    const sortFriends = list.filter( x => !x.ban).sort( (a,b) => a.friend.first_name === b.friend.first_name ? 0 : a.friend.first_name > b.friend.first_name ? 1 : -1);
     return sortFriends.map( x => {
       let fullname = x.friend.first_name + " " + x.friend.last_name;
       return <li key={x.id}><Friend fullname = {fullname} friendId = {x.id} removeFriend = {this.removeFriend} buttonLabel="Ban" ban ='true'/></li>
@@ -76,7 +76,7 @@ class FriendList extends React.Component{
 
   render(){
     return(
-      <div>
+      <div style={{padding: "0px 10px"}}>
         <FriendFilter onClickFriends={this.onClickFriends} onClickBan={this.onClickBan} colorFriends={this.state.colorFriends} colorBans={this.state.colorBans}/>
         {
           this.state.showList === "friends" ? this.renderFriends() : this.renderBans()

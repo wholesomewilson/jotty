@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
+  get '/home', to: 'home#index'
   get 'permissions/create'
   get 'permissions/destroy'
-  root to: redirect('/posts')
-  #
+  root to: redirect('/home')
+
   authenticated :user do
     root to: redirect('/posts')
   end
@@ -13,7 +14,6 @@ Rails.application.routes.draw do
   get 'posts/:id/edit', to: 'site#index'
   get 'setup', to: 'setup#index'
   post 'teleupdates', to: 'setup#teleupdates'
-  #mount ActionCable.server => '/cable'
 
   devise_for :users, controllers: {
     registrations: 'users/registrations'
