@@ -80,7 +80,7 @@ body, html {
   transform: translateX(50%);
   font-family: 'Gloria Hallelujah', cursive;
   width: 100%;
-  font-size: 28px;
+  font-size: 25px;
 }
 
 .to_this_wrapper{
@@ -165,6 +165,7 @@ body, html {
 
 .use_jotty{
   position: absolute;
+  width: auto;
   top: 35%;
   left: 50%;
   transform: translateX(-50%);
