@@ -23,7 +23,7 @@
 <div class="save_earth_wrapper">
   <h1 class="save_earth newfont">Save <strong>Earth<br></strong> </h1>
   <%= link_to posts_path do %>
-    <h1 class="use_jotty newfont">Use <strong>Jotty</strong><%= image_tag "bear.png", size:"32x32", class:"baboon_icon" %></h1>
+    <h2 class="use_jotty newfont">Use <strong>Jotty</strong><%= image_tag "bear.png", size:"32x32", class:"baboon_icon" %></h2>
   <% end %>
 </div>
 
@@ -46,7 +46,7 @@
   });
 
   function parallax(){
-         var newtop = (window.pageYOffset / 3);
+         var newtop = (window.pageYOffset / 10);
          $(".noteboard_wrapper").css({top: newtop + 'px'});
          }
 
