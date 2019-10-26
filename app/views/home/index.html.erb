@@ -34,7 +34,7 @@
 <script>
 
   $(document).scroll(function(){
-    $(".noteboard_wrapper, .header").css("opacity", 1.16 - $(window).scrollTop() / 600);
+    $(".noteboard_wrapper, .header").css("opacity", 1.13 - $(window).scrollTop() / 600);
   });
 
   $(document).scroll(function(){
@@ -44,5 +44,12 @@
   $(document).scroll(function(){
     $(".to_this_wrapper, .notephone_wrapper").css("opacity", $(window).scrollTop() / 400);
   });
+
+  function parallax(){
+         var newtop = (window.pageYOffset / 3.6);
+         $(".noteboard_wrapper").css({top: newtop + 'px'});
+         }
+
+  window.addEventListener("scroll", parallax, false);
 
 </script>
