@@ -113,7 +113,7 @@ class Post < ApplicationRecord
     @date = "*#{date.in_time_zone("Asia/Singapore").strftime("%e %b %Y %l:%M%P")}*"
     @body = body
     @poster = self.poster.first_name + ' ' + self.poster.last_name
-    @url = "[Go to Jotty](https://safe-caverns-89301.herokuapp.com)"
+    @url = "[Go to Jotty](https://try-jotty.herokuapp.com)"
     @text = "#{@date}\n\n#{@body}\n\n#{@poster}\n\n#{@url}"
     @bottoken = Rails.application.credentials.tele_token
     uri = URI("https://api.telegram.org/bot#{@bottoken}/sendMessage")
@@ -152,7 +152,7 @@ class Post < ApplicationRecord
     @date = "*#{date.in_time_zone("Asia/Singapore").strftime("%e %b %Y %l:%M%P")}*"
     @body = body
     @poster = self.poster.first_name + ' ' + self.poster.last_name
-    @url = "[Go to Jotty](https://safe-caverns-89301.herokuapp.com)"
+    @url = "[Go to Jotty](https://try-jotty.herokuapp.com)"
     @text = "New Jotty\n\n#{@date}\n\n#{@body}\n\n#{@poster}\n\n#{@url}"
     @bottoken = Rails.application.credentials.tele_token
     uri = URI("https://api.telegram.org/bot#{@bottoken}/sendMessage")
@@ -204,7 +204,7 @@ class Post < ApplicationRecord
     @date = "*#{date.in_time_zone("Asia/Singapore").strftime("%e %b %Y %l:%M%P")}*"
     @body = body
     @poster = self.poster.first_name + ' ' + self.poster.last_name
-    @url = "[Go to Jotty](https://safe-caverns-89301.herokuapp.com)"
+    @url = "[Go to Jotty](https://try-jotty.herokuapp.com)"
     @text = "You have a new pending Jotty\n\n#{@date}\n\n#{@body}\n\n#{@poster}\n\n#{@url}"
     @bottoken = Rails.application.credentials.tele_token
     uri = URI("https://api.telegram.org/bot#{@bottoken}/sendMessage")

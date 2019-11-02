@@ -1,4 +1,4 @@
-class Permission < ApplicationRecord
+try-jottyclass Permission < ApplicationRecord
   belongs_to :user
   belongs_to :friend, :class_name => 'User'
 
@@ -45,7 +45,7 @@ class Permission < ApplicationRecord
     @date = "*#{date.in_time_zone("Asia/Singapore").strftime("%e %b %Y %l:%M%P")}*"
     @body = body
     @poster = self.poster.first_name
-    @url = "[Go to Jotty](https://safe-caverns-89301.herokuapp.com)"
+    @url = "[Go to Jotty](https://try-jotty.herokuapp.com)"
     @text = "Yay! #{@poster} is your new friend in Jotty!\n\n#{@url}"
     @bottoken = Rails.application.credentials.tele_token
     uri = URI("https://api.telegram.org/bot#{@bottoken}/sendMessage")
