@@ -1,4 +1,4 @@
-try-jottyclass Permission < ApplicationRecord
+Permission < ApplicationRecord
   belongs_to :user
   belongs_to :friend, :class_name => 'User'
 
