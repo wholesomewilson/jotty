@@ -1,4 +1,4 @@
-# Jotty <img src="https://github.com/wholesomewilson/jotty/blob/master/app/assets/images/bear.png" width="45" style="vertical-align:middle;">
+# Jotty <img src="https://github.com/wholesomewilson/jotty/blob/master/app/assets/images/bear.png" width="25" style="vertical-align:middle;">
 
 A sticky note style reminder web app for individuals to remind others on events and tasks.
 
