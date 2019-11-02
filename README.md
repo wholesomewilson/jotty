@@ -1,24 +1,27 @@
-# README
+# Jotty
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A sticky note style reminder web app for individuals to remind others on events and tasks.
 
-Things you may want to cover:
+## Tech Stacks
+Ruby on Rails, ReactJS, jQuery, HTML, CSS, Heroku, Material-UI
 
-* Ruby version
+## Features
 
-* System dependencies
+There are two main features on the platform.
 
-* Configuration
+### Send a Jotty for yourself
 
-* Database creation
+The app provides an easy and simple way to create reminders for yourself with an option of adding an alarm. Notification for alarm can be done through Web App Push Notification (PWA) and Jotty Telegram Bot.
 
-* Database initialization
+Key Features: Create a Jotty, Notifications through PWA & Telegram Bot, Seamless Setup for Notification Options
 
-* How to run the test suite
+### Send a Jotty for your friends
 
-* Services (job queues, cache servers, search engines, etc.)
+The app allows you to create reminders for your friends. Search for your friends using their mobile numbers and send the first Jotty to them as Friends Invitation. Once the recipients accept the first Jotty, they will be added to your Friend List and vice versa. To prevent spams, recipients have the option to decline your Jotty and you will be added to their Ban List which will prevent you from sending them any more Jotty.
 
-* Deployment instructions
+Key Features: Friends & Ban Lists, Search Users with mobile phones
 
-* ...
+## License
+A short snippet describing the license (MIT, Apache etc)
+
+MIT © [Wilson Wan]()
