@@ -19,7 +19,7 @@ Key Features: Create a Jotty, Notifications through PWA & Telegram Bot, Seamless
 
 The app allows you to create reminders for your friends. Search for your friends using their mobile numbers and send the first Jotty to them as Friends Invitation. Once the recipients accept the first Jotty, they will be added to your Friend List and vice versa. To prevent spams, recipients have the option to decline your Jotty and you will be added to their Ban List which will prevent you from sending them any more Jotty.
 
-Key Features: Friends & Ban Lists, Search Users with mobile phones
+Key Features: Friends & Ban Lists, Search Users with mobile numbers
 
 ## License
 A short snippet describing the license (MIT, Apache etc)
