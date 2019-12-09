@@ -117,11 +117,78 @@ body, html {
   background-image: asset_url("send.svg");
   height: 59%;
   width: 100%;
-  background-position: center left;
+  background-position: 10% 50%;
   background-repeat: no-repeat;
   background-size: 50% 50%;
   // background-size: cover;
   background-color: #E6E8EC;
+}
+
+.how_div{
+  position: relative;
+  background-color: #57B894;
+  text-align: center;
+  height: 70%;
+  padding-bottom: 40px;
+}
+
+.how_div_sub{
+  position: absolute;
+  text-align: center;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  transform: translate(-50%, -52%);
+}
+
+.receive_div{
+  position: relative;
+  background-color: #E6E8EC;
+  text-align: center;
+  height: 35%;
+  padding: 30px 0px 30px;
+}
+
+.receive_div_sub{
+  position: absolute;
+  text-align: center;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  transform: translate(-50%, -52%);
+}
+
+.jottygif{
+  width: 280px;
+  height: auto;
+  border-radius: 15px;
+  // margin-bottom: 10px;
+}
+
+.jottytele{
+  position: relative;
+  width: 100px;
+  height: auto;
+}
+
+.telecap{
+  // position: absolute;
+  // left: 50%;
+  display: inline;
+}
+
+.pushcap{
+  display: inline;
+  // position: absolute;
+  // left: 50%;
+}
+
+.jottypush{
+  position: relative;
+  width: 100px;
+  height: auto;
+  border-radius: 10px;
+  margin-left: 20px;
 }
 
 .send_jotty{
@@ -129,6 +196,26 @@ body, html {
   top: 50%;
   left: 50%;
   transform: translate(0%,-50%);
+  padding: 5px;
+  strong{
+    color: #3f51b5;
+  }
+}
+
+.demo_jotty{
+  margin-bottom: 10px;
+  padding: 5px;
+  strong{
+    color: #E6E8EC;
+  }
+}
+
+.receive_jotty{
+  // position: absolute;
+  // top: 50%;
+  // left: 25%;
+  // transform: translate(0%,-50%);
+  margin-bottom: 30px;
   padding: 5px;
   strong{
     color: #3f51b5;
